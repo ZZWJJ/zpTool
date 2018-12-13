@@ -1,51 +1,53 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
-<title>登录页面</title>
-<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"
+    ><meta name="renderer" content="webkit">
+
+    <title>素材火www.sucaihuo.com - 登录</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="">
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <link href="../static/css/animate.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
+
 </head>
-<script type="text/javascript">
-function sendAjax()
-{
-        var username = $("#username").val();
-        var password = $("#password").val();
-        var vcode = $("#vcode").val();
-        var rememberMe =$('#rememberMe').is(':checked');
- $.ajax(
-    {
-        url:"/login",
-        data:{"username":username,"password":password},
-        type:"post",
-        /* dataType:"json", */
-        success:function(data)
-        { 
-             if(data == 'ok'){
-              	//alert(data);
-              	window.location.href='test';
-             }else{
-            	$("#erro").html("登录失败，用户名或密码不正确！");
-            } 
- 
-        },
-        error: function() {
-            $("#erro").html("登录失败");
-          }
-    }); 
-    }
-</script>
-<body>
-	        错误信息：<h4 id="erro"></h4>
-			<p>账号：<input type="text" name="username" id="username" value="admin"/></p>
-			<p>密码：<input type="text" name="password" id="password" value="123456"/></p>
-<!-- 			 <p>
-            验证码：<input type="text" name="vcode" id="vcode"/>
-        </p>
-        <p>
-            <img alt="验证码" id="codePic" src="http://localhost:8080/getGifCode" onclick="change()"></img>
-        </p> -->
-        	<P><input type="checkbox" name="rememberMe" id="rememberMe" />记住我</P>
-			<p><input type="button" onclick="sendAjax()" value="登录" id="ajaxLogin"/></p>
- 
+
+<body class="gray-bg">
+
+    <div class="middle-box text-center loginscreen  animated fadeInDown">
+        <div>
+            <div>
+
+                <h1 class="logo-name">H+</h1>
+
+            </div>
+            <h3>欢迎使用 H+</h3>
+
+            <form class="m-t" role="form" action="index.html">
+                <div class="form-group">
+                    <input type="email" class="form-control" placeholder="工号" required="">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="密码" required="">
+                </div>
+                <button type="submit" class="btn btn-primary block full-width m-b">登 录</button>
+                <!--<p class="text-muted text-center"> <a href="login.html#"><small>忘记密码了？</small></a> | <a href="register.html">注册一个新账号</a>-->
+                <!--</p>-->
+
+            </form>
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="../static/js/jquery-2.1.1.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+
 </body>
+
 </html>

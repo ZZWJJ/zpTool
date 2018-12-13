@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+
+    <title>添加企业-后台管理系统</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link href="../../static/css/bootstrap.min.css?v=3.4.0" rel="stylesheet">
+    <link href="../../static/font-awesome/css/font-awesome.css?v=4.3.0" rel="stylesheet">
+
+    <!-- Morris -->
+    <link href="../../static/css/morris-0.4.3.min.css" rel="stylesheet">
+
+    <!-- Gritter -->
+    <link href="../../static/css/jquery.gritter.css" rel="stylesheet">
+
+    <link href="../../static/css/animate.css" rel="stylesheet">
+    <link href="../../static/css/style.css?v=2.2.0" rel="stylesheet">
+
+</head>
+
+<body>
+<div id="wrapper">
+    <!--左侧导航栏-->
+    <script src="../../static/js/frame/left.js"></script>
+    <!--左侧导航栏结束-->
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <!--顶部导航-->
+        <script src="../../static/js/frame/top.js"></script>
+        <!--顶部导航结束-->
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>添加企业</h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="../index.html">主页</a>
+                    </li>
+                    <li>
+                        <a>我的企业</a>
+                    </li>
+                    <li>
+                        <strong>添加企业</strong>
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>添加企业</h5>
+                            <!--<div class="ibox-tools">-->
+                            <!--<a class="collapse-link">-->
+                            <!--<i class="fa fa-chevron-up"></i>-->
+                            <!--</a>-->
+                            <!--<a class="dropdown-toggle" data-toggle="dropdown" href="form_basic.html#">-->
+                            <!--<i class="fa fa-wrench"></i>-->
+                            <!--</a>-->
+                            <!--<ul class="dropdown-menu dropdown-user">-->
+                            <!--<li><a href="form_basic.html#">选项1</a>-->
+                            <!--</li>-->
+                            <!--<li><a href="form_basic.html#">选项2</a>-->
+                            <!--</li>-->
+                            <!--</ul>-->
+                            <!--<a class="close-link">-->
+                            <!--<i class="fa fa-times"></i>-->
+                            <!--</a>-->
+                            <!--</div>-->
+                        </div>
+                        <div class="ibox-content">
+                            <form class="form-horizontal m-t">
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">企业名称：</label>
+                                    <div class="col-lg-6">
+                                        <input type="text" placeholder="企业名称" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">联系人：</label>
+                                    <div class="col-lg-6">
+                                        <input type="text" placeholder="联系人" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">联系电话：</label>
+                                    <div class="col-lg-6">
+                                        <input type="tel" placeholder="联系电话" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">会员类型：</label>
+                                    <div class="col-lg-6">
+                                        <input type="text" placeholder="会员类型" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">到期时间：</label>
+                                    <div class="col-lg-6">
+                                       <div class="col-sm-5"> <input placeholder="开始日期" class="form-control layer-date col-sm-5" id="start"></div>
+                                      <div class="col-sm-5">  <input placeholder="结束日期" class="form-control layer-date" id="end"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">密码：</label>
+
+                                    <div class="col-lg-6">
+                                        <input type="password" placeholder="密码" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-offset-3 col-lg-8">
+                                        <button class="btn btn-sm btn-info" type="submit" style="margin-right: 50px">
+                                            重新填写
+                                        </button>
+                                        <button class="btn btn-sm btn-info" type="submit">确认添加</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--底部-->
+        <script src="../../static/js/frame/footer.js"></script>
+        <!--底部结束-->
+    </div>
+</div>
+<!-- Mainly scripts -->
+<script src="../../static/js/jquery-2.1.1.min.js"></script>
+<script src="../../static/js/bootstrap.min.js?v=3.4.0"></script>
+<script src="../../static/js/plugins/jquery.metisMenu.js"></script>
+<script src="../../static/js/plugins/jquery.slimscroll.min.js"></script>
+
+<script src="../../static/js/jquery.jeditable.js"></script>
+
+<!--&lt;!&ndash; Data Tables &ndash;&gt;-->
+<!--<script src="../../static/js/jquery.dataTables.js"></script>-->
+<!--<script src="../../static/js/dataTables.bootstrap.js"></script>-->
+
+<!-- Custom and plugin javascript -->
+<script src="../../static/js/hplus.js?v=2.2.0"></script>
+<script src="../../static/js/plugins/pace.min.js"></script>
+
+<!-- Page-Level Scripts -->
+
+<script src="../../static/js/plugins/laydate.js"></script>
+<script>
+    //日期范围限制
+    var start = {
+        elem: '#start',
+        format: 'YYYY/MM/DD hh:mm:ss',
+        min: laydate.now(), //设定最小日期为当前日期
+        max: '2099-06-16 23:59:59', //最大日期
+        istime: true,
+        istoday: false,
+        choose: function (datas) {
+            end.min = datas; //开始日选好后，重置结束日的最小日期
+            end.start = datas //将结束日的初始值设定为开始日
+        }
+    };
+    var end = {
+        elem: '#end',
+        format: 'YYYY/MM/DD hh:mm:ss',
+        min: laydate.now(),
+        max: '2099-06-16 23:59:59',
+        istime: true,
+        istoday: false,
+        choose: function (datas) {
+            start.max = datas; //结束日选好后，重置开始日的最大日期
+        }
+    };
+    laydate(start);
+    laydate(end);
+</script>
+</body>
+</html>
