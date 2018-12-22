@@ -97,4 +97,11 @@ public class LoginController {
         }
         return "error";
     }
+    
+    @RequestMapping("toTable")
+	public String toTable() {
+		return "bootstraptable";
+	}
 }
+
+

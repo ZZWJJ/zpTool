@@ -698,7 +698,7 @@ fieldset[disabled] .btn-info.active {
   border-color: #26d7d9;
 }
 .btn-default {
-  background-color: #c2c2c2;
+  background-color: #1ab394;
   border-color: #c2c2c2;
   color: #FFFFFF;
 }
@@ -707,9 +707,9 @@ fieldset[disabled] .btn-info.active {
 .btn-default:active,
 .btn-default.active,
 .open .dropdown-toggle.btn-default {
-  background-color: #bababa;
-  border-color: #bababa;
-  color: #FFFFFF;
+  background-color: transparent;
+  border-color: #1ab394;
+  color: #1ab394;
 }
 .btn-default:active,
 .btn-default.active,
@@ -3007,14 +3007,14 @@ video {
 }
 #page-wrapper {
   padding: 0 15px;
-  min-height: 568px;
+  min-height: 500px;
   position: relative !important;
 }
 @media (min-width: 768px) {
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 240px;
-    min-height: 800px;
+    min-height: 100%;
   }
 }
 .title-action {
@@ -6287,11 +6287,11 @@ body.skin-3 {
 .skin-3 .nav.nav-tabs > li.active {
   background: transparent;
 }
-@media (min-width: 768px) {
+@media (min-width: 768px) {	
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 220px;
-    min-height: 800px;
+    min-height: 970px;
   }
   .navbar-static-side {
     z-index: 2001;

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.learning.www.entity.ZphInfo;
@@ -27,6 +28,13 @@ public class ZphInfoController {
 	private ZphInfoService zphservice;
 	
 	private static Logger logger = LoggerFactory.getLogger(ZphInfoController.class);
+	
+	
+	@RequestMapping("toZph")
+	public String toZph() {
+		return "zph/list_zph";
+	}
+	
 	/***
 	 * GET：查询	招聘会信息
 	 * @param model
@@ -34,7 +42,7 @@ public class ZphInfoController {
 	 */
 	@RequestMapping("getZphInfo")
 	@ResponseBody
-	public String getZphInfo(Model model) { 
+	public List<ZphInfo> getZphInfo(Model model) { 
 				
 		List<ZphInfo> zphinfolist = new ArrayList<ZphInfo>();
 		zphinfolist = zphservice.getZphInfoList();
@@ -43,21 +51,24 @@ public class ZphInfoController {
 			logger.info(zphInfo.toString());
 		}
 		
-		return "查找到了招聘会信息:"+zphinfolist.size();
+		return zphinfolist;
 		
 	} 
 	
 	@RequestMapping("getZphInfobyid")
 	@ResponseBody
-	public String getZphInfoById(String id) { 
+	public List<ZphInfo> getZphInfoById(int id) { 
 		
-		int zphid = Integer.parseInt(id);
+		//int zphid = Integer.parseInt(id);
 		ZphInfo zphinfo = new ZphInfo();
-		if(null == zphservice.getZphInfoById(zphid)) {			
-			return "未查找到数据";
+		if(null == zphservice.getZphInfoById(id)) {			
+			logger.info("未查找到信息！");
+			return null;
 		}
-		zphinfo = zphservice.getZphInfoById(zphid);
-		return "根据查找到了招聘会信息："+zphinfo.toString(); 
+		List<ZphInfo> zpList = new ArrayList<ZphInfo>();
+		zphinfo = zphservice.getZphInfoById(id);
+		zpList.add(zphinfo);
+		return zpList; 
 		
 	}
 	
@@ -82,13 +93,20 @@ public class ZphInfoController {
 	 */
 	@RequestMapping("delZphInfo")
 	@ResponseBody
-	public int deleteZphInfo(String id) {
-		
-		int Id = Integer.parseInt(id);
-		int ret = zphservice.deleteZphInfo(Id);
-		
-		logger.info("删除缓存：招聘会id为"+id);
-		return ret;		
+	public int deleteZphInfo(@RequestParam("ids[]") int[] ids) {
+		int flag = 1;
+		//int Id = Integer.parseInt(id);
+		for (int id : ids) {
+			//int Id = Integer.parseInt(id);
+			int ret = zphservice.deleteZphInfo(id);
+			if(ret == 0) {
+				flag = 0;
+				logger.info("删除缓存失败：招聘会id为"+id);
+				return flag;
+			}
+			logger.info("删除缓存：招聘会id为"+id);
+		}						
+		return flag;		
 	}
 	
 	/***
@@ -96,12 +114,14 @@ public class ZphInfoController {
 	 * @param zphinfo
 	 * @return
 	 */
-	public int putZphInfo(ZphInfo zphinfo) { 
+	@RequestMapping("putZphInfoById")
+	@ResponseBody
+	public int putZphInfoById(ZphInfo zphinfo) { 
 		
+		int ret = zphservice.putZphInfoById(zphinfo);
+		logger.info("已经更新，id为："+zphinfo.getId());
 		
-		
-		
-		return 0;		
+		return ret;		
 	}
 	
 }

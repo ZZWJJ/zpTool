@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.cache.annotation.CacheEvict;
 //import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.learning.www.entity.ZphInfo;
 import com.learning.www.mapper.ZphInfoMapper;
@@ -20,7 +21,7 @@ public class ZphInfoServiceImpl implements ZphInfoService{
 	@Autowired
 	private ZphInfoMapper zphinfomapper;
 	
-	//private static Logger logger = LoggerFactory.getLogger(ZphInfoServiceImpl.class);
+	private static Logger logger = LoggerFactory.getLogger(ZphInfoServiceImpl.class);
 	
 	@Override
 	//@Cacheable(value = "ZphInfo",key="'List_zphinfo'")
@@ -37,11 +38,23 @@ public class ZphInfoServiceImpl implements ZphInfoService{
 		return zphinfolist;
 	}
 	
+	@Transactional
 	@Override
 	public int postZphInfo(ZphInfo zphinfo) {
-		return zphinfomapper.postZphInfo(zphinfo);
+		int ret = zphinfomapper.postZphInfo(zphinfo);
+		if(ret == 1) {
+			zphinfo = getZphInfoByTitle(zphinfo.getTitle());
+			// 新增的数据添加到缓存中
+			GuavaCache.setKey(zphinfo.getId(), zphinfo);
+		}else {
+			logger.info("service添加招聘会信息失败:"+zphinfo.toString());
+			return 0;
+		}
+
+		return ret;
 	}
 
+	@Transactional
 	@Override
 	//@CacheEvict(value = "ZphInfoById", key = "#id")
 	public int deleteZphInfo(int id) {
@@ -61,6 +74,21 @@ public class ZphInfoServiceImpl implements ZphInfoService{
 		}
 		return zphinfomapper.getZphInfoById(id);
 		
+	}
+
+	@Override
+	public ZphInfo getZphInfoByTitle(String title) {
+		return zphinfomapper.getZphInfoByTitle(title);
+	}
+
+	@Override
+	public int putZphInfoById(ZphInfo zphinfo) {
+
+		int ret = zphinfomapper.putZphInfoById(zphinfo);
+		if(ret == 1) {
+			GuavaCache.setKey(zphinfo.getId(), zphinfo);
+		}
+		return ret;
 	}
 	
 

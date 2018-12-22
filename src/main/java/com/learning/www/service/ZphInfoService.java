@@ -35,4 +35,18 @@ public interface ZphInfoService {
 	 * @return
 	 */
 	public ZphInfo getZphInfoById(int id);
+	
+	/***
+	 * 根据title查找招聘会
+	 * @param title
+	 * @return
+	 */
+	public ZphInfo getZphInfoByTitle(String title);
+	
+	/***
+	 * 根据id修改招聘会信息
+	 * @param zphinfo
+	 * @return
+	 */
+	public int putZphInfoById(ZphInfo zphinfo);
 }
