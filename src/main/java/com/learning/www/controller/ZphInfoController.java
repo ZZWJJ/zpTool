@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.learning.www.entity.ZphInfo;
+import com.learning.www.service.Zph2ComService;
 import com.learning.www.service.ZphInfoService;
 
 /***
@@ -26,6 +27,9 @@ public class ZphInfoController {
 	
 	@Autowired
 	private ZphInfoService zphservice;
+	
+	@Autowired
+	Zph2ComService zphcomservice;
 	
 	private static Logger logger = LoggerFactory.getLogger(ZphInfoController.class);
 	
@@ -47,10 +51,9 @@ public class ZphInfoController {
 		List<ZphInfo> zphinfolist = new ArrayList<ZphInfo>();
 		zphinfolist = zphservice.getZphInfoList();
 		model.addAttribute("zphinfolist", zphinfolist);
-		for (ZphInfo zphInfo : zphinfolist) {
-			logger.info(zphInfo.toString());
-		}
-		
+//		for (ZphInfo zphInfo : zphinfolist) {
+//			logger.info(zphInfo.toString());
+//		}		
 		return zphinfolist;
 		
 	} 
@@ -121,7 +124,28 @@ public class ZphInfoController {
 		int ret = zphservice.putZphInfoById(zphinfo);
 		logger.info("已经更新，id为："+zphinfo.getId());
 		
-		return ret;		
+		return ret;
 	}
-	
+		
+	/***
+	 * GET：查询	招聘会信息
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("getZphInfo2Com")
+	@ResponseBody
+	public List<ZphInfo> getZphInfo2Com(int comid) { 
+		logger.info("comid:"+comid);
+		int zphid[] = zphcomservice.getZph2ComByComId(comid);
+		
+		List<ZphInfo> zphinfolist = new ArrayList<ZphInfo>();
+		zphinfolist = zphservice.getZphInfoList();
+		
+		for (int id : zphid) {
+			zphinfolist.remove(zphservice.getZphInfoById(id));
+		}
+		logger.info("剩余的招聘会："+zphinfolist.toString());
+		return zphinfolist;
+		
+	}
 }

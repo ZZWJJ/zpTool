@@ -10,7 +10,7 @@ import com.learning.www.entity.User;
 @Mapper
 public interface UserMapper {
 
-	@Select("select username,password,role from user where username=#{username}")
+	@Select("select * from user where username=#{username}")
 	public User getPasswordByUsername(String username);
 	
 }

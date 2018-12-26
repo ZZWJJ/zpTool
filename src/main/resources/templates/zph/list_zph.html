@@ -66,18 +66,18 @@
                 </ul>
             </li>
             <li>
-                <a href="company/com_list.html"><i class="fa fa-envelope"></i> <span class="nav-label">企业信息</span>
+                <a href="../com/toCom"><i class="fa fa-envelope"></i> <span class="nav-label">企业信息</span>
                     <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li><a href="company/com_list.html">企业列表</a></li>
+                    <li><a href="../com/toCom">企业列表</a></li>
                 </ul>
             </li>
             <li>
-                <a href="user/user_com.html"><i class="fa fa-flask"></i> <span
+                <a href="../com/toMyCom"><i class="fa fa-flask"></i> <span
                         class="nav-label">我的企业</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li><a href="user/add_com.html">添加企业</a></li>
-                    <li><a href="user/user_com.html">我的企业列表</a></li>
+                    <!-- <li><a href="user/add_com.html">添加企业</a></li> -->
+                    <li><a href="../com/toMyCom">我的企业列表</a></li>
                 </ul>
             </li>
 
@@ -435,7 +435,7 @@ var TableInit = function () {
                 title: '企业编号'
             }, {
                 field: 'title',
-                title: '企业名称L'
+                title: '企业名称'
             }, {
                 field: 'time',
                 title: '企业联系方式'
@@ -515,17 +515,17 @@ function editUser(){
 		$("#Tip").modal('show');
 	}
 	else{
-	var row = rows[0];
-	$('#editId').val(row.id);
-	$('#editTitle').val(row.title);
-	$('#editTime').val(row.time);
-	$('#editName').val(row.name);
-	$('#editSex').val(row.sex);
-	$('#editEmail').val(row.email);
-	$('#editPhone').val(row.phone);
-	$('#editStates').val(row.states);
-	$('#editCreated_at').val(row.created_at);
-	$("#editModal").modal("show");
+		var row = rows[0];
+		$('#editId').val(row.id);
+		$('#editTitle').val(row.title);
+		$('#editTime').val(row.time);
+		$('#editName').val(row.name);
+		$('#editSex').val(row.sex);
+		$('#editEmail').val(row.email);
+		$('#editPhone').val(row.phone);
+		$('#editStates').val(row.states);
+		$('#editCreated_at').val(row.created_at);
+		$("#editModal").modal("show");
 	}
 }
 function updateUser(){

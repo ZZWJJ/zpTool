@@ -30,7 +30,7 @@ public class GuavaCache {
 				@Override
 				public ZphInfo load(Integer key) throws Exception {
 					// TODO Auto-generated method stub
-					logger.info("未得到数据，返回-1");
+					logger.info("缓存load函数，未得到数据，返回-1");
 					return zph;
 				}
 			});

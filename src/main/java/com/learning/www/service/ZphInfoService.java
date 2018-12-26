@@ -3,6 +3,7 @@ package com.learning.www.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.learning.www.entity.ZphInfo;
 
@@ -20,6 +21,7 @@ public interface ZphInfoService {
 	 * @param zphinfo
 	 * @return
 	 */
+	@Transactional
 	public int postZphInfo(ZphInfo zphinfo);
 	
 	/***
@@ -27,6 +29,7 @@ public interface ZphInfoService {
 	 * @param id
 	 * @return
 	 */
+	@Transactional
 	public int deleteZphInfo(int id);
 	
 	/***
@@ -48,5 +51,6 @@ public interface ZphInfoService {
 	 * @param zphinfo
 	 * @return
 	 */
+	@Transactional
 	public int putZphInfoById(ZphInfo zphinfo);
 }

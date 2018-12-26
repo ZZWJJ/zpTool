@@ -13,6 +13,6 @@ public class ComInfo {
 	private String cname;
 	private String contactor;
 	private String phone;
-	private String add;
+	private String addinfo;
 	
 }
