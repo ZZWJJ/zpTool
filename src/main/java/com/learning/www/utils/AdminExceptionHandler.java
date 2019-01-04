@@ -1,15 +1,21 @@
 package com.learning.www.utils;
 
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.learning.www.entity.MyException;
+import org.springframework.web.servlet.ModelAndView;
 
 @ControllerAdvice
 public class AdminExceptionHandler {
@@ -38,15 +44,33 @@ public class AdminExceptionHandler {
 	 * @return
 	 */
    @ResponseBody
-   @ExceptionHandler(value = MyException.class)
-   public Map myErrorHandler(MyException ex) {
-       logger.error("捕获到MyException异常",ex);
-       //异常日志入库
-       Map map = new HashMap<>();
-       map.put("code", ex.getCode());
-       map.put("msg", ex.getMessage());
-       return map;
+   @ExceptionHandler({ UnauthorizedException.class, AuthorizationException.class })
+   public ModelAndView myShiroErrorHandler(HttpServletRequest request, HttpServletResponse response, Exception e) throws Exception {
+	   
+	   logger.info("捕获到shiro权限异常");
+	   response.setContentType("application/json;charset=utf-8");
+	   PrintWriter writer = response.getWriter();
+	   writer.write("shirError");
+	   writer.flush();
+	   return null;
    }
 
+   
+   private ModelAndView createModelAndView(HttpServletRequest request, String viewName, HttpStatus status, Exception e)
+   {
+      ModelAndView mav = new ModelAndView();
+      if (e != null)
+      {
+         mav.addObject("error", e);
+      }
+      mav.addObject("url", request.getRequestURI());
+      mav.addObject("method", request.getMethod());
+      if (status != null)
+      {
+         mav.setStatus(status);
+      }
+      mav.setViewName(viewName);
+      return mav;
+   }
 
 }

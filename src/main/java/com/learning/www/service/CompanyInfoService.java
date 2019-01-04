@@ -2,6 +2,7 @@ package com.learning.www.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,4 +54,13 @@ public interface CompanyInfoService {
 	 */
 	@Transactional
 	public int putComInfoById(ComInfo cominfo);
+	
+	/***
+	 * 企业转移
+	 * @param uid
+	 * @param uname
+	 * @param id
+	 * @return
+	 */
+	public int putUserById(@Param("uid")int uid,@Param("uname")String uname,@Param("id")int id);
 }

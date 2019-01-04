@@ -16,16 +16,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.learning.www.entity.ComInfo;
+import com.learning.www.entity.Com_Zph;
 import com.learning.www.entity.User;
 import com.learning.www.entity.ZphInfo;
 import com.learning.www.service.CompanyInfoService;
 import com.learning.www.service.UserMapperService;
 import com.learning.www.service.Zph2ComService;
 import com.learning.www.service.ZphInfoService;
+import com.learning.www.utils.AdminExceptionHandler;
 
 @RequestMapping("com")
 @Controller
-public class CompanyInfoController {
+public class CompanyInfoController extends AdminExceptionHandler{
 
 	@Autowired
 	CompanyInfoService companyinfoservice;
@@ -51,6 +53,7 @@ public class CompanyInfoController {
 	public String toMyCom() {
 		return "user/user_com";
 	}
+	
 	/***
 	 * GET：查询	招聘会信息
 	 * @param model
@@ -88,19 +91,25 @@ public class CompanyInfoController {
 	 */
 	@RequestMapping("getZphComById")
 	@ResponseBody
-	public List<ZphInfo> getZphComById(int id) {
+	public List<Com_Zph> getZphComById(int id) {  
 		int [] Zphid = zphcomservice.getZph2ComByComId(id);
 		ZphInfo zph = new ZphInfo();
-		List<ZphInfo> zphList = new ArrayList<ZphInfo>();
+		Com_Zph com_zph = new Com_Zph();
+		//List<ZphInfo> zphList = new ArrayList<ZphInfo>();
+		List<Com_Zph> ComZphList = new ArrayList<Com_Zph>();
 		
 		for (int zphid : Zphid) {
 			zph = zphinfoservice.getZphInfoById(zphid);
-			logger.info(zphList.toString());
-			zphList.add(zph);
+			com_zph = zphcomservice.getZph2ComByComIdZphId(id,zphid);
+			com_zph.setZphtitle(zph.getTitle());
+			com_zph.setZphtime(zph.getTime());
+			com_zph.setZphstate(zph.getState());			
+			ComZphList.add(com_zph);
+			logger.info(ComZphList.toString());
 		}
-		logger.info(zphList.toString());
+		logger.info(ComZphList.toString());
 		
-		return zphList;
+		return ComZphList;
 	}
 	
 	/***
@@ -127,9 +136,16 @@ public class CompanyInfoController {
 	 * POST：新增  公司信息
 	 * @return
 	 */
+	//@RequiresRoles("user")
 	@RequestMapping("postComInfo")
 	@ResponseBody
 	public int postComInfo(ComInfo cominfo ) { 
+		Subject sub = SecurityUtils.getSubject();
+		String loginName = (String) sub.getPrincipal();
+		logger.info(loginName);
+		User user = userservice.getPasswordByUsername(loginName);
+		cominfo.setUid(user.getId());
+		cominfo.setUname(loginName);
 		
 		int ret = companyinfoservice.postComInfo(cominfo);		
 		logger.info("新增公司的id："+cominfo.getId());
@@ -169,11 +185,6 @@ public class CompanyInfoController {
 	@ResponseBody
 	public int putZphInfoById(ComInfo cominfo) { 
 		
-		logger.info(cominfo.toString());
-		Subject sub = SecurityUtils.getSubject();
-		String loginName = (String) sub.getPrincipal();
-		cominfo.setUid(1);
-		
 		int ret = companyinfoservice.putComInfoById(cominfo);
 		logger.info("已经更新公司信息，id为："+cominfo.getId());
 		
@@ -203,21 +214,70 @@ public class CompanyInfoController {
 		return ret;
 	}
 	
-	@RequestMapping("deleteZph2ComByZphId")
+	/***
+	 * del 删除参展招聘会
+	 * @param zphid
+	 * @return
+	 */
+	@RequestMapping("deleteZph2ComById")
 	@ResponseBody
-	public int deleteZph2ComByZphId(int zphid) {		
+	public int deleteZph2ComByZphId(int id) {		
 		
-		int ret = zphcomservice.deleteZph2ComByZphId(zphid);
+		int ret = zphcomservice.deleteZph2ComByZphId(id);
 		
 		return ret;
 	}
 	
+	/***
+	 * 更改参展状态
+	 * @param id
+	 * @param isjoin
+	 * @return
+	 */
+	@RequestMapping("changeJoinStateByid")
+	@ResponseBody
+	public int changeJoinStateByZphid(int id, int isjoin) {
+		
+		logger.info("输出信息：id="+id);
+		if(isjoin == 0) {
+			isjoin = 1;
+		}else {
+			isjoin = 0;
+		}
+		int ret = zphcomservice.putJoinStateByZphid(id,isjoin);
+				
+		return ret;		
+	}
 	
+	/***
+	 * put 更新备注信息
+	 * @param addinfoid
+	 * @param addinfo
+	 * @return
+	 */
+	@RequestMapping("putAddInfoById")
+	@ResponseBody
+	public int putAddInfoById(int addinfoid,String addinfo) {
+		
+		int ret = zphcomservice.putAddInfoById(addinfoid, addinfo);		
+		return ret;		
+	}
 	
-	
-	
-	
-	
+	/***
+	 * put 企业转移
+	 * @param uid
+	 * @param uname
+	 * @param comid
+	 * @return
+	 */
+	@RequestMapping("putUserInfoById")
+	@ResponseBody
+	public int putUserInfoById(int uid,String uname,int comid) {
+		
+		int ret = companyinfoservice.putUserById(uid, uname, comid);
+		
+		return ret;		
+	}
 	
 	
 }

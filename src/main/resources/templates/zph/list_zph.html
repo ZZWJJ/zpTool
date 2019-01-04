@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html >
 <html>
 
 <head>
@@ -24,6 +24,11 @@
     <!-- 2、bootstrap组件引用 -->
     <script src="https://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<link href="https://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+	
+	<!-- 2、bootstrap日期选择组件引用 -->
+    <script src="../js/bootstrap-datetimepicker.js"></script>
+    <script src="../js/bootstrap-datetimepicker.zh-CN.js"></script>
+	<link href="../css/bootstrap-datetimepicker.css" rel="stylesheet">
     
    <!--  3、bootstrap table组件以及中文包的引用 -->
     <script src="../js/bootstrap-table.js"></script>
@@ -36,6 +41,14 @@
 	
 	<link href="../css/animate.css" rel="stylesheet">
     <link href="../css/style.css?v=2.2.0" rel="stylesheet">
+    <!-- 使得表格头部和单元格中文字居中 -->
+    <style type="text/css">
+        .table th, .table td { 
+			text-align: center;
+			vertical-align: middle!important;
+		}
+    </style>
+
 </head>
 
 <body>
@@ -62,14 +75,14 @@
                 <ul class="nav nav-second-level">
 <!--                     <li><a href="zph/add_zph.html">添加招聘会</a></li>
                     <li><a href="zph/modify_zph.html">修改招聘会</a></li> -->
-                    <li class="active"><a href="#">招聘会列表</a></li>
+                    <li class="active"><a href="#">招聘会管理</a></li>
                 </ul>
             </li>
             <li>
                 <a href="../com/toCom"><i class="fa fa-envelope"></i> <span class="nav-label">企业信息</span>
                     <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li><a href="../com/toCom">企业列表</a></li>
+                    <li><a href="../com/toCom">企业管理</a></li>
                 </ul>
             </li>
             <li>
@@ -77,17 +90,17 @@
                         class="nav-label">我的企业</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <!-- <li><a href="user/add_com.html">添加企业</a></li> -->
-                    <li><a href="../com/toMyCom">我的企业列表</a></li>
+                    <li><a href="../com/toMyCom">我的企业管理</a></li>
                 </ul>
             </li>
 
             <li>
-                <a href="admin/list.html"><i class="fa fa-desktop"></i> <span
+                <a href="../admin/toAdmin"><i class="fa fa-desktop"></i> <span
                         class="nav-label">管理员设置</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li><a href="admin/add.html">添加管理员</a></li>
-                    <li><a href="admin/list.html">管理员列表</a></li>
-                    <li><a href="admin/change.html">信息编辑</a></li>
+                    <li><a href="../admin/toAdmin">用户管理</a></li>
+                    <li><a href="../admin/toAdmin">角色管理</a></li>
+                    <li><a href="../admin/toAdmin">部门管理</a></li>
                 </ul>
             </li>
         </ul>
@@ -131,7 +144,7 @@
                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
             </button>
         </div>
-        <table id="tb_zph"></table>
+        <table id="tb_zph" style="text-align: center;vertical-align: middle!important;"></table>
     </div>
 
         <!--底部-->
@@ -150,9 +163,9 @@
 					<div class="modal-body">
 						<form id="addUserForm" action="/zph/postZphInfo" method="post" class="form-horizontal">
 							<div class="form-group">
-								<label for="inputAccount" class="col-sm-2 control-label">名称</label>
+								<label for="inputAccount" class="col-sm-2 control-label">主题</label>
 								<div class="col-sm-7">
-									<input type="account" name="title" class="form-control" id="title" placeholder="招聘会名称"/>
+									<input type="account" name="title" class="form-control" id="title" placeholder="招聘会主题"/>
 								</div>
 								<label id="errorAccount" for="inputAccount" class="col-sm-3 control-label"></label>
 							</div>
@@ -397,6 +410,7 @@ var TableInit = function () {
             }, {
                 field: 'id',
                 title: '编号',
+                width: '80px',
                 sortable : true
             }, {
                 field: 'title',
@@ -406,7 +420,20 @@ var TableInit = function () {
                 field: 'time',
                 title: '招聘时间',
                 sortable : true
-            } ],
+            }, {
+                field: 'state',
+                title: '状态',
+                width: '80px',
+                //events: operateEvents_state,
+                formatter: operateFormatter_state,
+                sortable : true
+            }, {
+                field: 'Button',
+                title: '操作',
+                width: '80px',
+                events: operateEvents,
+                formatter: operateFormatter
+            }],
           //注册加载子表的事件。注意下这里的三个参数！
             onExpandRow: function (index, row, $detail) {
             	oTableInit.InitSubTable(index, row, $detail);
@@ -416,14 +443,14 @@ var TableInit = function () {
   //初始化子表格(无线循环)
     oTableInit.InitSubTable = function (index, row, $detail) {
         var parentid = row.id;
-        var cur_table = $detail.html('<table></table>').find('table');
+        var cur_table = $detail.html("<table id='subtable' style='table-layout: fixed;background-color:#BCD2EE'></table>").find('table');
         $(cur_table).bootstrapTable({
-            url: '/zph/getZphInfobyid',
+            url: '/zph/getZphInfo2ComByZphid',
             method: 'get',
             contentType: 'application/json;charset=UTF-8',//这里我就加了个utf-8
             dataType: 'json',
-            queryParams: { id: parentid },
-            ajaxOptions: { id: parentid },
+            queryParams: { zphid: parentid },
+            ajaxOptions: { zphid: parentid },
             clickToSelect: true,
             //height: 500,
             detailView: false,//父子表
@@ -432,14 +459,24 @@ var TableInit = function () {
             pageList: [10, 25],
             columns: [{
                 field: 'id',
-                title: '企业编号'
+                title: '企业编号',
+                width: '80px',
             }, {
-                field: 'title',
-                title: '企业名称'
+                field: 'cname',
+                title: '企业名称',
+                width: '320px',
             }, {
-                field: 'time',
-                title: '企业联系方式'
-            } ],
+                field: 'contactor',
+                title: '企业联系人',
+                width: '160px',
+            }, {
+                field: 'phone',
+                title: '企业联系方式',
+                width: '160px',
+            } , {
+                field: 'add',
+                title: '备注'
+            }],
             //无线循环取子表，直到子表里面没有记录
             onExpandRow: function (index, row, $Subdetail) {
                 oInit.InitSubTable(index, row, $Subdetail);
@@ -586,5 +623,77 @@ function deleteUser(){
 		}
 	});
 }
+/*表格btn*/
+function operateFormatter(value, row, index) {
+    return [
+        '<div class="btn-group">',
+        '<button th:if="row.id == 1" id="changeState" type="button" class="btn btn-default" style="color:white;background-color:#FF8C00" singleSelected=true>修改状态</button>',
+        '</div>'
+    ].join('');
+}
+
+function operateFormatter_state(value, row, index) {
+	console.log(value);
+    var a = '';
+	if(value == 0){
+		a='<button type="button" class="btn btn-default" style="color:white;background-color:#32CD32">进行中</button>';
+	}else{
+		a='<button type="button" class="btn btn-default" style="color:white;background-color:#696969">已完结</button>';;
+	}
+	return [
+		a
+    ].join('');
+}
+
+window.operateEvents={
+	    //修改
+	    "click #changeState":function (e, value, row, index) {
+	        var rows = $('#tb_zph').bootstrapTable('getSelections');	        
+	    	if(rows.length!=1){
+	    		document.getElementById("tipContent").innerText="请选中一场招聘会修改状态";
+	    		$("#Tip").modal('show');
+	    	}else{
+	    		var zphid = rows[0].id;
+	    		var zphstate = rows[0].state;
+	    		console.log(zphid);
+	    		console.log(zphstate);
+		        $.ajax({
+		    		url:"/zph/putZphStateById",
+		    		//dataType:"json",
+		    		//traditional: true,//属性在这里设置
+		    		method:"post",
+		    		data:{
+		    			"zphid":zphid,
+		    			"zphstate":zphstate
+		    		},
+		    		success:function(data){
+		    			if(data == 1){
+		    				$("#addzphModal").modal('hide');
+		    				document.getElementById("tipContent").innerText="修改成功";
+		    				$("#Tip").modal('show');
+		    			}else{
+		    				document.getElementById("tipContent").innerText="修改失败,请至少选择一行数据";
+		    				$("#Tip").modal('show');
+		    			}
+		    			$("#tb_zph").bootstrapTable("refresh");
+		    		},
+		    		error:function(){
+		    			document.getElementById("tipContent").innerText="修改失败";
+		    			$("#Tip").modal('show');
+		    		}
+		    	});	
+	    	}
+	}
+}
+
+var date = new Date();
+$("#time").datetimepicker({
+	format: 'yyyy-mm-dd',
+	startDate: date,
+	todayBtn : true,
+	language:'zh-CN',
+	autoclose : true,
+	minView : 2,
+});
 </script>
 </html>

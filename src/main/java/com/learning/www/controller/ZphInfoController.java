@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.learning.www.entity.ComInfo;
 import com.learning.www.entity.ZphInfo;
+import com.learning.www.service.CompanyInfoService;
 import com.learning.www.service.Zph2ComService;
 import com.learning.www.service.ZphInfoService;
 
@@ -27,6 +29,9 @@ public class ZphInfoController {
 	
 	@Autowired
 	private ZphInfoService zphservice;
+	
+	@Autowired
+	private CompanyInfoService comservice;
 	
 	@Autowired
 	Zph2ComService zphcomservice;
@@ -147,5 +152,46 @@ public class ZphInfoController {
 		logger.info("剩余的招聘会："+zphinfolist.toString());
 		return zphinfolist;
 		
+	}
+	
+	/***
+	 * GET：查询	招聘会信息
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("getZphInfo2ComByZphid")
+	@ResponseBody
+	public List<ComInfo> getZphInfo2ComByZphid(int zphid) { 
+		logger.info("comid:"+zphid);
+		int comid[] = zphcomservice.getZph2ComByZphId(zphid);
+		List<ComInfo> comList = new ArrayList<ComInfo>();
+		for (int id : comid) {
+			logger.info("id:"+id);
+			ComInfo com = comservice.getComInfoById(id);
+			comList.add(com);
+		}		
+		return comList;
+		
+	}
+	
+	/***
+	 * put 更新招聘会状态
+	 * @param zphid	0:进行中   1：已完结
+	 * @param zphstate
+	 * @return
+	 */
+	@RequestMapping("putZphStateById")
+	@ResponseBody
+	public int putZphStateById(int zphid,int zphstate) {
+		//logger.info(zphinfo.getState() +"==="+ zphinfo.getId());
+		ZphInfo zphinfo = zphservice.getZphInfoById(zphid);
+		if(zphstate == 0) {
+			zphinfo.setState(1);
+		}else {
+			zphinfo.setState(0);
+		}
+		int ret = zphservice.putZphStateById(zphinfo);
+		
+		return ret;
 	}
 }

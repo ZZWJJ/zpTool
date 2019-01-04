@@ -37,7 +37,7 @@ document.writeln("                        <span class=\'m-r-sm text-muted welcom
 document.writeln("                                class=\'fa fa-home\'></i></a>欢迎使用后台管理系统</span>");
 document.writeln("            </li>");
 document.writeln("            <li>");
-document.writeln("                <a href=\'../../../templates/login.html\'>");
+document.writeln("                <a href=\'../logout'>");
 document.writeln("                    <i class=\'fa fa-sign-out\'></i> 退出");
 document.writeln("                </a>");
 document.writeln("            </li>");

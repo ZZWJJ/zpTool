@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -36,7 +37,7 @@ public interface ComInfoMapper {
 	@Select("select * from company where uid = #{uid}")
 	public List<ComInfo> getComInfoByUid(int uid);
 	
-	@Insert("insert into company(uid,cname,contactor,phone,addinfo) values(#{uid},#{cname},#{contactor},#{phone},#{addinfo})")
+	@Insert("insert into company(uid,uname,cname,contactor,phone,addinfo) values(#{uid},#{uname},#{cname},#{contactor},#{phone},#{addinfo})")
 	public int postComInfo(ComInfo cominfo);
 	
 	@Delete("delete from company where id = #{id}")
@@ -44,5 +45,8 @@ public interface ComInfoMapper {
 	
 	@Update("update company set uid=#{uid},cname=#{cname},contactor=#{contactor},phone=#{phone},addinfo=#{addinfo} where id=#{id}")
 	public int putComInfoById(ComInfo cominfo);
+	
+	@Update("update company set uname=#{uname},uid=#{uid} where id=#{id}")
+	public int putUserById(@Param("uid")int uid,@Param("uname")String uname,@Param("id")int id);
 		
 }

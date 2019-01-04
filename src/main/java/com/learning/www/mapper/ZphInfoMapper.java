@@ -32,4 +32,7 @@ public interface ZphInfoMapper {
 	
 	@Update("update zphinfo set title = #{title},time = #{time} where id = #{id}")
 	public int putZphInfoById(ZphInfo zphinfo);
+	
+	@Update("update zphinfo set state = #{state} where id = #{id}")
+	public int putZphStateById(ZphInfo zphinfo);
 }

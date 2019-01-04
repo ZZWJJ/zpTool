@@ -90,6 +90,15 @@ public class ZphInfoServiceImpl implements ZphInfoService{
 		}
 		return ret;
 	}
+
+	@Override
+	public int putZphStateById(ZphInfo zphinfo) {
+		int ret = zphinfomapper.putZphStateById(zphinfo);
+		if(ret == 1) {
+			GuavaCache.setKey(zphinfo.getId(), zphinfo);
+		}
+		return ret;
+	}
 	
 
 }

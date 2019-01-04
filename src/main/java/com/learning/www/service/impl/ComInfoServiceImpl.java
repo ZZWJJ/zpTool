@@ -45,6 +45,11 @@ public class ComInfoServiceImpl implements CompanyInfoService{
 		return cominfomapper.putComInfoById(cominfo);
 	}
 
+	@Override
+	public int putUserById(int uid, String uname, int id) {
+		return cominfomapper.putUserById(uid, uname, id);
+	}
+
 
 	
 	

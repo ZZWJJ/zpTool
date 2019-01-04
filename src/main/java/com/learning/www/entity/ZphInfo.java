@@ -13,5 +13,6 @@ public class ZphInfo {
 	private String time;
 	private String place;
 	private String add;
+	private int state;
 	
 }

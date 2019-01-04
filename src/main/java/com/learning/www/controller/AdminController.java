@@ -1,30 +1,131 @@
 package com.learning.www.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Created with IntelliJ IDEA
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+
+
+import com.learning.www.entity.User;
+import com.learning.www.service.UserMapperService;
+
+/***
+ * 管理员Controller
+ * @author Administrator
  *
- * @Author yuanhaoyue swithaoy@gmail.com
- * @Description 权限：管理员
- * @Date 2018-04-06
- * @Time 20:31
  */
-@RestController
+@Controller
 @RequestMapping("/admin")
 public class AdminController {
-    private final ResultMap resultMap;
 
-    @Autowired
-    public AdminController(ResultMap resultMap) {
-        this.resultMap = resultMap;
-    }
+	@Autowired
+	UserMapperService userservice;
+	
+	@Value("${MyUser.password}")
+	private String password;
+	
+	private static Logger logger = LoggerFactory.getLogger(ZphInfoController.class);
+	
+	/***
+	 * 错误页面
+	 * @return
+	 */
+	@RequestMapping("403")
+	public String to403() {
+		return "403";
+	}
+	
+	@RequestMapping("/toAdmin")
+	public String toAdmin() {
+		return "admin/admin_list";
+	}
+    	
+	/***
+	 * GET：查询	用户信息
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("getUserInfo")
+	@ResponseBody
+	public List<User> getComInfo(Model model) {              
+		List<User> userList = new ArrayList<User>();
+		userList = userservice.getUserInfo();
+		logger.info("取得所有用户信息："+userList.toString());
+		return userList; 		
+	} 
+	
+	/***
+	 * POST：新增  用户信息
+	 * @return
+	 */
+	@RequestMapping("postUserInfo")
+	@ResponseBody
+	public int postUserInfo(User user ) { 
+		
+		
+		int ret = userservice.postUserInfo(user);		
+		logger.info("新增用户的id："+user.getId());
+		return ret;				
+	}
+	
+	/***
+	 * DELETE：删除	指定ID的用户
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("delUserInfo")
+	@ResponseBody
+	public int deleteUserInfo(@RequestParam("ids[]") int[] ids) { 
+		int flag = 1;
+		for (int id : ids) {
+			int ret = userservice.deleteUserInfo(id);
+			if(ret == 0) {
+				flag = 0;
+				logger.info("删除用户信息失败：用户id为"+id);
+				return flag;
+			}
+			logger.info("删除用户信息：用户id为"+id);
+		}						
+		return flag;		
+	}
+	
+	
+	/***
+	 * PUT：更新	用户信息
+	 * @param zphinfo
+	 * @return
+	 */
+	@RequestMapping("putUserInfoById")
+	@ResponseBody
+	public int putUserInfoById(User user) { 
+		
+		int ret = userservice.putUserInfoById(user);
+		logger.info("已经更新用户信息，id为："+user.getId());
+		
+		return ret;
+	}
+	
+	
+	@RequestMapping("putUserPasswordById")
+	@ResponseBody
+	public int putUserPasswordById(int uid) {
 
-    @RequestMapping(value = "/getMessage", method = RequestMethod.GET)
-    public ResultMap getMessage() {
-        return resultMap.success().message("您拥有管理员权限，可以获得该接口的信息！");
-    }
+		int ret = userservice.putUserPasswordById(uid, password);
+		
+		return ret;
+	}
+	
+	
+	
+	
+	
 }

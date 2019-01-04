@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="Thymeleaf" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 
 <head>
     <meta charset="utf-8">
@@ -36,6 +36,13 @@
 	
 	<link href="../css/animate.css" rel="stylesheet">
     <link href="../css/style.css?v=2.2.0" rel="stylesheet">
+    <!-- 使得表格头部和单元格中文字居中 -->
+    <style type="text/css">
+        .table th, .table td { 
+			text-align: center;
+			vertical-align: middle!important;
+		}
+    </style>
 </head>
 
 <body>
@@ -62,14 +69,14 @@
                 <ul class="nav nav-second-level">
 <!--                     <li><a href="zph/add_zph.html">添加招聘会</a></li>
                     <li><a href="zph/modify_zph.html">修改招聘会</a></li> -->
-                    <li><a href="../zph/toZph">招聘会列表</a></li>
+                    <li><a href="../zph/toZph">招聘会管理</a></li>
                 </ul>
             </li>
             <li class="active">
                 <a href="#"><i class="fa fa-envelope"></i> <span class="nav-label">企业信息</span>
                     <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li class="active"><a href="#">企业列表</a></li>
+                    <li class="active"><a href="#">企业管理</a></li>
                 </ul>
             </li>
             <li>
@@ -77,17 +84,17 @@
                         class="nav-label">我的企业</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <!-- <li><a href="user/add_com.html">添加企业</a></li> -->
-                    <li><a href="toMyCom">我的企业列表</a></li>
+                    <li><a href="toMyCom">我的企业管理</a></li>
                 </ul>
             </li>
 
             <li>
-                <a href="admin/list.html"><i class="fa fa-desktop"></i> <span
+                <a href="../admin/toAdmin"><i class="fa fa-desktop"></i> <span
                         class="nav-label">管理员设置</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li><a href="admin/add.html">添加管理员</a></li>
-                    <li><a href="admin/list.html">管理员列表</a></li>
-                    <li><a href="admin/change.html">信息编辑</a></li>
+                    <li><a href="../admin/toAdmin">用户管理</a></li>
+                    <li><a href="../admin/toAdmin">角色管理</a></li>
+                    <li><a href="../admin/toAdmin">部门管理</a></li>
                 </ul>
             </li>
         </ul>
@@ -120,7 +127,7 @@
                 </form>
             </div> -->
         </div>
-        <div id="toolbar" class="btn-group" shiro:hasPermission="admin">
+        <div id="toolbar" class="btn-group" shiro:hasPermission="admin:test">
             <button type="button" class="btn btn-default" id="addBtn" data-toggle="modal" data-target="#addUserModal">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
             </button>
@@ -449,13 +456,13 @@ var TableInit = function () {
             }, {
                 field: 'time',
                 title: '招聘会时间'
-            } , {
+            } ,/*  {
                 field: 'Button',
                 title: '操作',
                 width: '80px',
                 events: operateEvents,
                 formatter: operateFormatter
-            }],
+            } */],
             //无线循环取子表，直到子表里面没有记录
             onExpandRow: function (index, row, $Subdetail) {
                 oInit.InitSubTable(index, row, $Subdetail);

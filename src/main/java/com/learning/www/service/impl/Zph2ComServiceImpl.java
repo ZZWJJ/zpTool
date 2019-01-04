@@ -3,6 +3,7 @@ package com.learning.www.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.learning.www.entity.Com_Zph;
 import com.learning.www.mapper.Zph2ComMapper;
 import com.learning.www.service.Zph2ComService;
 
@@ -29,8 +30,27 @@ public class Zph2ComServiceImpl implements Zph2ComService{
 	}
 
 	@Override
-	public int deleteZph2ComByZphId(int zphid) {
-		return zphcommapper.deleteZph2ComByZphId(zphid);
+	public int deleteZph2ComByZphId(int id) {
+		return zphcommapper.deleteZph2ComByZphId(id);
 	}
+
+	@Override
+	public int putJoinStateByZphid(int id,int isjoin) {
+		// TODO Auto-generated method stub
+		return zphcommapper.putJoinStateByid(id,isjoin);
+	}
+
+	@Override
+	public Com_Zph getZph2ComByComIdZphId(int comid, int zphid) {
+		return zphcommapper.getZph2ComByComIdZphId(comid, zphid);
+	}
+
+	@Override
+	public int putAddInfoById(int id, String addinfo) {
+		return zphcommapper.putAddInfoById(id, addinfo);
+	}
+
+
+
 
 }

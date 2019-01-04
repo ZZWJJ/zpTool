@@ -44,7 +44,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
-    @RequiresPermissions("test")
+    @RequiresPermissions("admin:test")
     public String test() {
         return "index";
     }
@@ -56,11 +56,10 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    @ResponseBody
-    public ResultMap logout() {
+    public String logout() {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
-        return resultMap.success().message("成功注销！");
+        return "login";
     }
 
     /**
