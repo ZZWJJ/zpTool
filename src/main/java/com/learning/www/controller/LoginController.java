@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.learning.www.entity.User;
 import com.learning.www.mapper.UserMapper;
+import com.learning.www.service.UserMapperService;
 
 /**
  * Created with IntelliJ IDEA
@@ -30,6 +31,9 @@ public class LoginController {
     private final ResultMap resultMap;
     private final UserMapper userMapper;
 
+    @Autowired
+    UserMapperService userservice;
+    
     private static Logger log = LoggerFactory.getLogger(LoginController.class);
     
     @Autowired
@@ -44,14 +48,14 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
-    @RequiresPermissions("admin:test")
+    //@RequiresPermissions("admin:test")
     public String test() {
         return "index";
     }
     
     @RequestMapping(value = "/notRole", method = RequestMethod.GET)
     @ResponseBody
-    public ResultMap notRole() {
+    public ResultMap notRole() {    
         return resultMap.success().message("您没有权限！");
     }
 
@@ -72,6 +76,12 @@ public class LoginController {
     @ResponseBody
     public String login(String username, String password) {
     	
+//    	User user01 = new User();
+//    	user01.setUsername("admin01");
+//    	user01.setPassword("123456");
+//    	userservice.postUserInfo(user01);
+    	
+    	
     	log.info("username:"+username+"===="+"password:"+password);
         // 从SecurityUtils里边创建一个 subject
         Subject subject = SecurityUtils.getSubject();
@@ -88,10 +98,7 @@ public class LoginController {
 		}
         //根据权限，指定返回数据
         User user = userMapper.getPasswordByUsername(username);
-        if (null != user && "user".equals(user.getRole())) {
-            return "ok";
-        }
-        if (null != user && "admin".equals(user.getRole())) {
+        if (null != user) {
             return "ok";
         }
         return "error";

@@ -1,9 +1,13 @@
 package com.learning.www.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.learning.www.entity.Com_Zph;
+import com.learning.www.entity.EchartComAmount;
+import com.learning.www.entity.EchartZphAmount;
 import com.learning.www.mapper.Zph2ComMapper;
 import com.learning.www.service.Zph2ComService;
 
@@ -48,6 +52,26 @@ public class Zph2ComServiceImpl implements Zph2ComService{
 	@Override
 	public int putAddInfoById(int id, String addinfo) {
 		return zphcommapper.putAddInfoById(id, addinfo);
+	}
+
+	@Override
+	public List<EchartComAmount> getComAmount() {
+		return zphcommapper.getComAmount();
+	}
+
+	@Override
+	public List<EchartZphAmount> getZphAmount() {
+		return zphcommapper.getZphAmount();
+	}
+
+	@Override
+	public int deleteZphInfoByZphId(int zphid) {
+		return zphcommapper.deleteZphInfoByZphId(zphid);
+	}
+
+	@Override
+	public int deleteComInfoByComId(int comid) {
+		return zphcommapper.deleteComInfoByComId(comid);
 	}
 
 

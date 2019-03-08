@@ -1,10 +1,14 @@
 package com.learning.www.service;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.learning.www.entity.Com_Zph;
+import com.learning.www.entity.EchartComAmount;
+import com.learning.www.entity.EchartZphAmount;
 
 
 @Service
@@ -64,4 +68,25 @@ public interface Zph2ComService {
 	 * @return
 	 */
 	public int putAddInfoById(@Param("id")int id,@Param("addinfo")String addinfo);
+	
+	/***
+	 * 专员-公司数量
+	 * echarts
+	 * @return
+	 */
+	public List<EchartComAmount> getComAmount();
+	
+	/***
+	 * 招聘会-企业数量
+	 * @return
+	 */
+	public List<EchartZphAmount> getZphAmount();
+	
+	/***
+	 * 删除招聘会或企业信息的同时，删除在这批货com中的相关信息
+	 * @param zphid
+	 * @return
+	 */
+	public int deleteZphInfoByZphId(int zphid);
+	public int deleteComInfoByComId(int comid);
 }

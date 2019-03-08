@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.cache.annotation.CacheEvict;
 //import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.learning.www.entity.ZphInfo;
 import com.learning.www.mapper.ZphInfoMapper;
@@ -38,7 +37,6 @@ public class ZphInfoServiceImpl implements ZphInfoService{
 		return zphinfolist;
 	}
 	
-	@Transactional
 	@Override
 	public int postZphInfo(ZphInfo zphinfo) {
 		int ret = zphinfomapper.postZphInfo(zphinfo);
@@ -54,7 +52,6 @@ public class ZphInfoServiceImpl implements ZphInfoService{
 		return ret;
 	}
 
-	@Transactional
 	@Override
 	//@CacheEvict(value = "ZphInfoById", key = "#id")
 	public int deleteZphInfo(int id) {
@@ -98,6 +95,11 @@ public class ZphInfoServiceImpl implements ZphInfoService{
 			GuavaCache.setKey(zphinfo.getId(), zphinfo);
 		}
 		return ret;
+	}
+
+	@Override
+	public ZphInfo getZphInfoByIdAndState(int id) {
+		return zphinfomapper.getZphInfoByIdAndState(id);
 	}
 	
 

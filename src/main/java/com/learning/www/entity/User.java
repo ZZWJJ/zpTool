@@ -14,5 +14,5 @@ public class User {
 	private String phone;
 	private String password;
 	private String salt;
-	private String role;
+	private int role_id;
 }

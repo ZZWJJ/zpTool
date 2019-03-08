@@ -25,15 +25,15 @@ public interface UserMapper {
 	@Select("select * from user")
 	public List<User> getUserInfo();
 	
-	@Insert("insert into user(username,password,phone) values(#{username},#{password},#{phone})")
+	@Insert("insert into user(username,password,salt,phone,role_id) values(#{username},#{password},#{salt},#{phone},#{role_id})")
 	public int postUserInfo(User user);
 	
 	@Delete("delete from user where id = #{id}")
 	public int deleteUserInfo(int id);
 	
-	@Update("update user set username=#{username},phone=#{phone} where id=#{id}")
+	@Update("update user set username=#{username},phone=#{phone},role_id=#{role_id} where id=#{id}")
 	public int putUserInfoById(User user);
 	
-	@Update("update user set password=#{password} where id=#{id}")
-	public int putUserPasswordById(@Param("id")int id,@Param("password")String password);
+	@Update("update user set password=#{password},salt=#{salt} where id=#{id}")
+	public int putUserPasswordById(@Param("id")int id,@Param("password")String password,@Param("salt") String salt);
 }

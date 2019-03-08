@@ -14,6 +14,7 @@ import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 
 @Configuration
@@ -34,14 +35,18 @@ public class ShiroConfig {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         //游客，开发权限
         filterChainDefinitionMap.put("/guest/**", "anon");
-        //测试，开发权限
+        //测试，开发权限	
         //filterChainDefinitionMap.put("/test/**", "anon");
-        //用户，需要角色权限 “user”
-        filterChainDefinitionMap.put("/user/**", "roles[user]");
+        //用户，需要角色权限 “user” 
+        //filterChainDefinitionMap.put("/user/**", "roles[user]");
         //管理员，需要角色权限 “admin”
-        filterChainDefinitionMap.put("/admin/**", "roles[admin]");
+        //filterChainDefinitionMap.put("/admin/**", "roles[admin]");
         //开放登陆接口
         filterChainDefinitionMap.put("/login", "anon");
+        //开放静态文件，否则login界面无法加载
+        filterChainDefinitionMap.put("/css/**", "anon");
+        filterChainDefinitionMap.put("/js/**", "anon");
+        filterChainDefinitionMap.put("/images/**", "anon");
         //其余接口一律拦截
         //主要这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截
         
@@ -103,4 +108,17 @@ public class ShiroConfig {
     public ShiroDialect createDialect(){
         return new ShiroDialect();
     }
+    /***
+     * shiro的在进行密码验证的时候，将会在此进行匹配
+     * @return
+     */
+	@Bean("hashedCredentialsMatcher")
+	public HashedCredentialsMatcher hashedCredentialsMatcher() {
+		HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+		hashedCredentialsMatcher.setHashAlgorithmName("md5");// 散列算法:这里使用MD5算法;
+		hashedCredentialsMatcher.setHashIterations(2);// 散列的次数，比如散列两次，相当于md5(md5(""));
+		//hashedCredentialsMatcher.setStoredCredentialsHexEncoded(true);// 表示是否存储散列后的密码为16进制，需要和生成密码时的一样，默认是base64；
+		return hashedCredentialsMatcher;
+	}
+
 }

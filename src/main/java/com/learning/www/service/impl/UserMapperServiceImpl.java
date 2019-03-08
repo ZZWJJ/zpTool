@@ -3,12 +3,14 @@ package com.learning.www.service.impl;
 
 import java.util.List;
 
+import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.learning.www.entity.User;
 import com.learning.www.mapper.UserMapper;
 import com.learning.www.service.UserMapperService;
+import com.learning.www.shiro.config.ShiroEncryption;
 
 
 @Service
@@ -28,6 +30,12 @@ public class UserMapperServiceImpl implements UserMapperService{
 
 	@Override
 	public int postUserInfo(User user) {
+		// shiro 自带的工具类生成salt
+		String salt = new SecureRandomNumberGenerator().nextBytes().toString();
+		
+		String encodedPassword = ShiroEncryption.shiroEncryption(user.getPassword(),salt);
+		user.setSalt(salt);
+		user.setPassword(encodedPassword);
 		return userMapper.postUserInfo(user);
 	}
 
@@ -48,8 +56,14 @@ public class UserMapperServiceImpl implements UserMapperService{
 	}
 
 	@Override
-	public int putUserPasswordById(int id, String password) {
-		return userMapper.putUserPasswordById(id, password);
+	public int putUserPasswordById(int id, String password,String salt) {
+		
+		// shiro 自带的工具类生成salt
+		salt = new SecureRandomNumberGenerator().nextBytes().toString();
+		
+		String encodedPassword = ShiroEncryption.shiroEncryption(password,salt);
+		
+		return userMapper.putUserPasswordById(id, encodedPassword,salt);
 	}
 	
 	

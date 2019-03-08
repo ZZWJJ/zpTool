@@ -4,24 +4,35 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.stereotype.Controller;
 
+import com.google.zxing.WriterException;
+import com.learning.www.entity.User;
+import com.learning.www.mapper.UserMapper;
+import com.learning.www.service.UserMapperService;
+import com.learning.www.shiro.config.ShiroEncryption;
 import com.learning.www.utils.PrintImage;
 import com.learning.www.utils.PrintJobToImg;
+import com.learning.www.utils.QrCodeUtil;
 
 @SpringBootApplication
 @EnableAutoConfiguration
 @EnableCaching
 @MapperScan("com.learning.www.mapper")
+@Controller
 public class LearningApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LearningApplication.class, args);
+		SpringApplication.run(LearningApplication.class, args);		
 //	      PrintImage tt = new PrintImage();
 //	      BufferedImage d = tt.loadImageLocal("D:\\test\\muban.jpg");
 //	      String title = "撒大大是多少有限公司";
@@ -103,6 +114,15 @@ public class LearningApplication {
 //          {
 //               System.out.println("字体："+fontList[i]);
 //          }
-
+//		try {
+//			QrCodeUtil.createQrCode("D:\\test\\qrcode.jpg","https://7265-release-1674e4-1257861373.tcb.qcloud.la/test/qh3H5L4Gnq?sceneCode=W8_ni1w3CBlYmvCe",1500,"JPEG");
+//		} catch (WriterException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		// shiro 自带的工具类生成salt	
+		
+		
 	}
 }

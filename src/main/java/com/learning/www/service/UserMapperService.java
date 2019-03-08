@@ -57,6 +57,6 @@ public interface UserMapperService {
 	 * @param user
 	 * @return
 	 */
-	public int putUserPasswordById(@Param("id")int id,@Param("password")String password);
+	public int putUserPasswordById(int id,String password,String salt);
 	
 }

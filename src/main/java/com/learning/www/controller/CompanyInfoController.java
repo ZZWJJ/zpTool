@@ -101,10 +101,12 @@ public class CompanyInfoController extends AdminExceptionHandler{
 		for (int zphid : Zphid) {
 			zph = zphinfoservice.getZphInfoById(zphid);
 			com_zph = zphcomservice.getZph2ComByComIdZphId(id,zphid);
-			com_zph.setZphtitle(zph.getTitle());
-			com_zph.setZphtime(zph.getTime());
-			com_zph.setZphstate(zph.getState());			
-			ComZphList.add(com_zph);
+			if(null != zph) {
+				com_zph.setZphtitle(zph.getTitle());
+				com_zph.setZphtime(zph.getTime());
+				com_zph.setZphstate(zph.getState());				
+				ComZphList.add(com_zph);
+			}			
 			logger.info(ComZphList.toString());
 		}
 		logger.info(ComZphList.toString());
@@ -166,7 +168,8 @@ public class CompanyInfoController extends AdminExceptionHandler{
 		for (int id : ids) {
 			//int Id = Integer.parseInt(id);
 			int ret = companyinfoservice.deleteComInfo(id);
-			if(ret == 0) {
+			int ret1 = zphcomservice.deleteComInfoByComId(id);
+			if(ret == 0 || ret1 == 0) {
 				flag = 0;
 				logger.info("删除公司信息失败：公司id为"+id);
 				return flag;
@@ -279,5 +282,17 @@ public class CompanyInfoController extends AdminExceptionHandler{
 		return ret;		
 	}
 	
-	
+	/***
+	 * GET：查询	用户信息
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("getUserInfo")
+	@ResponseBody
+	public List<User> getUserInfo(Model model) {              
+		List<User> userList = new ArrayList<User>();
+		userList = userservice.getUserInfo();
+		logger.info("取得所有用户信息："+userList.toString());
+		return userList; 		
+	} 
 }

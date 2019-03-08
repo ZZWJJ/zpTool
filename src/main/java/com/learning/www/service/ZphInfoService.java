@@ -61,4 +61,11 @@ public interface ZphInfoService {
 	 */
 	@Transactional
 	public int putZphStateById(ZphInfo zphinfo);
+	
+	/***
+	 * 根据id和state筛选出招聘会
+	 * @param id
+	 * @return
+	 */
+	public ZphInfo getZphInfoByIdAndState(int id);
 }

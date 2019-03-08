@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 
 <head>
     <meta charset="utf-8">
@@ -64,12 +65,12 @@
             </li>
 
             <li>
-                <a href="../zph/toZph"><i class="fa fa fa-globe"></i> <span class="nav-label">招聘会信息</span><span
+                <a href="../zph/toZph"><i class="fa fa fa-globe"></i> <span class="nav-label" shiro:hasPermission="systemZph">招聘会信息</span><span
                         class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
 <!--                     <li><a href="zph/add_zph.html">添加招聘会</a></li>
                     <li><a href="zph/modify_zph.html">修改招聘会</a></li> -->
-                    <li><a href="../zph/toZph">招聘会管理</a></li>
+                    <li shiro:hasPermission="zphManager"><a href="../zph/toZph">招聘会管理</a></li>
                 </ul>
             </li>
             <li>
@@ -81,20 +82,21 @@
             </li>
             <li class="active">
                 <a href="#"><i class="fa fa-flask"></i> <span
-                        class="nav-label">我的企业</span><span class="fa arrow"></span></a>
+                        class="nav-label" shiro:hasPermission="systemCom">我的企业</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <!-- <li><a href="user/add_com.html">添加企业</a></li> -->
-                    <li class="active"><a href="#">我的企业管理</a></li>
+                    <li class="active" shiro:hasPermission="comManager"><a href="#">我的企业管理</a></li>
                 </ul>
             </li>
 
             <li>
                 <a href="../admin/toAdmin"><i class="fa fa-desktop"></i> <span
-                        class="nav-label">管理员设置</span><span class="fa arrow"></span></a>
+                        class="nav-label" shiro:hasPermission="systemUser">管理员设置</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li><a href="../admin/toAdmin">用户管理</a></li>
-                    <li><a href="../admin/toAdmin">角色管理</a></li>
-                    <li><a href="../admin/toAdmin">部门管理</a></li>
+                    <li shiro:hasPermission="userManager"><a href="../admin/toAdmin">用户管理</a></li>
+                    <li shiro:hasPermission="roleManager"><a href="../role/toRole">角色管理</a></li>
+                    <li shiro:hasPermission="menuManager"><a href="../menu/toMenu">菜单管理</a></li>
+                    <li shiro:hasPermission="deptManager"><a href="#">部门管理</a></li>
                 </ul>
             </li>
         </ul>
@@ -128,19 +130,19 @@
             </div> -->
         </div>
         <div id="toolbar" class="btn-group">
-            <button type="button" class="btn btn-default" id="addBtn" data-toggle="modal" data-target="#addUserModal">
+            <button type="button" class="btn btn-default" id="addBtn" data-toggle="modal" data-target="#addUserModal" shiro:hasPermission="comManagerAdd">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
             </button>
-            <button id="btn_edit" type="button" class="btn btn-default" data-toggle="modal" data-target="#editUserModal" onclick="editUser()">
+            <button id="btn_edit" type="button" class="btn btn-default" data-toggle="modal" data-target="#editUserModal" onclick="editUser()" shiro:hasPermission="comManagerUpdate">
                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
             </button>
-            <button id="btn_delete" type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteUserModal" onclick="deleteUser()">
+            <button id="btn_delete" type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteUserModal" onclick="deleteUser()" shiro:hasPermission="comManagerDelete">
                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
             </button>
-            <button id="btn_zph" type="button" class="btn btn-default" data-toggle="modal" data-target="#editUserModal" onclick="getZph()">
+            <button id="btn_zph" type="button" class="btn btn-default" data-toggle="modal" data-target="#editUserModal" onclick="getZph()" shiro:hasPermission="comManagerZphAdd">
                 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>增加招聘会
             </button>
-            <button id="btn_zph" type="button" class="btn btn-default" data-toggle="modal" data-target="#editUserModal" onclick="getUser()">
+            <button id="btn_zph" type="button" class="btn btn-default" data-toggle="modal" data-target="#editUserModal" onclick="getUser()" shiro:hasPermission="comManagerUserChange">
                 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>企业转移
             </button>
         </div>
@@ -463,7 +465,7 @@ var TableInit = function () {
             showRefresh: true,                  //是否显示刷新按钮
             minimumCountColumns: 2,             //最少允许的列数
             clickToSelect: true,                //是否启用点击选中行
-            //height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+            height: 800,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
             uniqueId: "id",                     //每一行的唯一标识，一般为主键列
             showToggle:true,                    //是否显示详细视图和列表视图的切换按钮
             cardView: false,                    //是否显示详细视图
@@ -529,27 +531,33 @@ var TableInit = function () {
                 field: 'id',
                 title: '编号',
                 width: '80px',
+                sortable: true,                     //是否启用排序
             }, {
                 field: 'zphtitle',
                 title: '招聘会名称',
                 width: '',
+                sortable: true,                     //是否启用排序
             }, {
                 field: 'zphtime',
                 title: '招聘会时间',
                 width: '220px',
+                sortable: true,                     //是否启用排序
             }, {
                 field: 'addinfo',
                 title: '备注信息',
                 width: '220px',
+                sortable: true,                     //是否启用排序
             }, {
                 field: 'zphstate',
                 title: '招聘会状态',
                 width: '110px',
+                sortable: true,                     //是否启用排序
                 formatter: operateFormatter_state,
             }, {
                 field: 'isjoin',
                 title: '是否参加',
                 width: '110px',
+                sortable: true,                     //是否启用排序
                 formatter: operateFormatter_isjoin,
             }, {
                 field: 'Button',
@@ -780,7 +788,7 @@ function getUser(){
 		var parentid = rows[0].id;
 		$("#tb_changeUser").bootstrapTable('destroy'); 	// 在初始化table之前，要将table销毁，否则会保留上次加载的内容
         $('#tb_changeUser').bootstrapTable({
-            url: '/admin/getUserInfo',         //请求后台的URL（*）
+            url: '/com/getUserInfo',         //请求后台的URL（*）
             method: 'get',                      //请求方式（*）
             //toolbar: '#toolbar_zph',                //工具按钮用哪个容器
             striped: true,                      //是否显示行间隔色

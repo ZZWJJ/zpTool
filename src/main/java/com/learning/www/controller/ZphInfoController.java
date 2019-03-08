@@ -107,7 +107,8 @@ public class ZphInfoController {
 		for (int id : ids) {
 			//int Id = Integer.parseInt(id);
 			int ret = zphservice.deleteZphInfo(id);
-			if(ret == 0) {
+			int ret1 = zphcomservice.deleteZphInfoByZphId(id);
+			if(ret == 0 || ret1 == 0) {
 				flag = 0;
 				logger.info("删除缓存失败：招聘会id为"+id);
 				return flag;
@@ -166,9 +167,10 @@ public class ZphInfoController {
 		int comid[] = zphcomservice.getZph2ComByZphId(zphid);
 		List<ComInfo> comList = new ArrayList<ComInfo>();
 		for (int id : comid) {
-			logger.info("id:"+id);
-			ComInfo com = comservice.getComInfoById(id);
-			comList.add(com);
+			ComInfo com = comservice.getComInfoById(id);			
+			if(null != com) {				
+				comList.add(com);
+			}
 		}		
 		return comList;
 		

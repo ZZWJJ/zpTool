@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="Thymeleaf" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 
 <head>
     <meta charset="utf-8">
@@ -64,12 +65,12 @@
             </li>
 
             <li>
-                <a href="../zph/toZph"><i class="fa fa fa-globe"></i> <span class="nav-label">招聘会信息</span><span
+                <a href="../zph/toZph"><i class="fa fa fa-globe"></i> <span class="nav-label" shiro:hasPermission="systemZph">招聘会信息</span><span
                         class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
 <!--                     <li><a href="zph/add_zph.html">添加招聘会</a></li>
                     <li><a href="zph/modify_zph.html">修改招聘会</a></li> -->
-                    <li><a href="../zph/toZph">招聘会管理</a></li>
+                    <li shiro:hasPermission="zphManager"><a href="../zph/toZph">招聘会管理</a></li>
                 </ul>
             </li>
             <li class="active">
@@ -81,20 +82,21 @@
             </li>
             <li>
                 <a href="toMyCom"><i class="fa fa-flask"></i> <span
-                        class="nav-label">我的企业</span><span class="fa arrow"></span></a>
+                        class="nav-label" shiro:hasPermission="systemCom">我的企业</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <!-- <li><a href="user/add_com.html">添加企业</a></li> -->
-                    <li><a href="toMyCom">我的企业管理</a></li>
+                    <li shiro:hasPermission="comManager"><a href="toMyCom">我的企业管理</a></li>
                 </ul>
             </li>
 
             <li>
                 <a href="../admin/toAdmin"><i class="fa fa-desktop"></i> <span
-                        class="nav-label">管理员设置</span><span class="fa arrow"></span></a>
+                        class="nav-label" shiro:hasPermission="systemUser">管理员设置</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li><a href="../admin/toAdmin">用户管理</a></li>
-                    <li><a href="../admin/toAdmin">角色管理</a></li>
-                    <li><a href="../admin/toAdmin">部门管理</a></li>
+                    <li shiro:hasPermission="userManager"><a href="../admin/toAdmin">用户管理</a></li>
+                    <li shiro:hasPermission="roleManager"><a href="../role/toRole">角色管理</a></li>
+                    <li shiro:hasPermission="menuManager"><a href="../menu/toMenu">菜单管理</a></li>
+                    <li shiro:hasPermission="deptManager"><a href="#">部门管理</a></li>
                 </ul>
             </li>
         </ul>
@@ -127,7 +129,7 @@
                 </form>
             </div> -->
         </div>
-        <div id="toolbar" class="btn-group" shiro:hasPermission="admin:test">
+        <div id="toolbar" class="btn-group" shiro:hasPermission="system">
             <button type="button" class="btn btn-default" id="addBtn" data-toggle="modal" data-target="#addUserModal">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
             </button>
@@ -392,7 +394,7 @@ var TableInit = function () {
             showRefresh: true,                  //是否显示刷新按钮
             minimumCountColumns: 2,             //最少允许的列数
             clickToSelect: true,                //是否启用点击选中行
-            //height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+            height: 800,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
             uniqueId: "id",                     //每一行的唯一标识，一般为主键列
             showToggle:true,                    //是否显示详细视图和列表视图的切换按钮
             cardView: false,                    //是否显示详细视图
@@ -416,6 +418,10 @@ var TableInit = function () {
             }, {
                 field: 'phone',
                 title: '联系电话',
+                sortable : true
+            }, {
+                field: 'uname',
+                title: '专员',
                 sortable : true
             }, {
                 field: 'addinfo',
@@ -451,10 +457,10 @@ var TableInit = function () {
                 field: 'id',
                 title: '招聘会编号'
             }, {
-                field: 'title',
+                field: 'zphtitle',
                 title: '招聘会名称'
             }, {
-                field: 'time',
+                field: 'zphtime',
                 title: '招聘会时间'
             } ,/*  {
                 field: 'Button',
