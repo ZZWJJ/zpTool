@@ -3,6 +3,7 @@ package com.learning.www.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,6 +92,7 @@ public class AdminController {
 	 */
 	@RequestMapping("postUserInfo")
 	@ResponseBody
+	@RequiresPermissions (value={"userManagerAdd"})
 	public int postUserInfo(User user ) { 
 		
 		int ret = userservice.postUserInfo(user);		
@@ -105,6 +107,7 @@ public class AdminController {
 	 */
 	@RequestMapping("delUserInfo")
 	@ResponseBody
+	@RequiresPermissions (value={"userManagerDelete"})
 	public int deleteUserInfo(@RequestParam("ids[]") int[] ids) { 
 		int flag = 1;
 		for (int id : ids) {
@@ -127,6 +130,7 @@ public class AdminController {
 	 */
 	@RequestMapping("putUserInfoById")
 	@ResponseBody
+	@RequiresPermissions (value={"userManagerUpdate"})
 	public int putUserInfoById(User user) { 
 		
 		int ret = userservice.putUserInfoById(user);
@@ -138,6 +142,7 @@ public class AdminController {
 	
 	@RequestMapping("putUserPasswordById")
 	@ResponseBody
+	@RequiresPermissions (value={"userManagerUpdatePassword"})
 	public int putUserPasswordById(int uid) {
 		
 		int ret = userservice.putUserPasswordById(uid, password,"");

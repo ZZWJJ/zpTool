@@ -2,6 +2,7 @@ package com.learning.www.controller;
 
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,7 @@ public class MenuController {
 	 */
 	@RequestMapping("postPermMenu")
 	@ResponseBody
+	@RequiresPermissions (value={"menuManagerAdd"})
 	public int postPermMenu(Permission perm) {
 		
 		logger.info(perm.toString());
@@ -68,6 +70,7 @@ public class MenuController {
 	 */
 	@RequestMapping("putPermMenu")
 	@ResponseBody
+	@RequiresPermissions (value={"menuManagerUpdate"})
 	public int putPermMenu(Permission perm) {
 		
 		int ret = menuService.putPermById(perm);
@@ -75,8 +78,14 @@ public class MenuController {
 		return ret;		
 	}
 	
+	/***
+	 * 删除权限
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("deletePerm")
 	@ResponseBody
+	@RequiresPermissions (value={"menuManagerDelete"})
 	public int deletePerm(int id) {
 		
 		int ret = menuService.deletePermById(id);

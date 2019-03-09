@@ -105,6 +105,7 @@
                     <li shiro:hasPermission="roleManager"><a href="../role/toRole">角色管理</a></li>
                     <li shiro:hasPermission="menuManager"><a href="../menu/toMenu">菜单管理</a></li>
                     <li shiro:hasPermission="deptManager"><a href="#">部门管理</a></li>
+                    <li shiro:hasPermission="deptManager"><a href="#">字典管理</a></li>
                 </ul>
             </li>
         </ul>
@@ -229,7 +230,7 @@
 							<div class="form-group" style="display:none">
 								<label for="editId" class="col-sm-2 control-label">ID</label>
 								<div class="col-sm-7">
-									<input type="id" name="id"   class="form-control" id="editId" placeholder="ID" />
+									<input type="text" name="id"   class="form-control" id="editId" placeholder="ID" />
 								</div>
 								<label id="errorId" for="editId" class="col-sm-3 control-label"></label>
 							</div>
@@ -697,7 +698,7 @@ function addZph(){
 function operateFormatter(value, row, index) {
     return [
         '<div class="btn-group">',
-        '<button id="btnEditPicGroupDetail" type="button" class="btn btn-default" style="color:white;background-color:#1E90FF"  singleSelected=true>密码重置</button>',
+        '<button id="btnEditPicGroupDetail" type="button" class="btn btn-default" style="color:white;background-color:#1E90FF" singleSelected=true>密码重置</button>',
         '</div>'
     ].join('');
 }
@@ -731,7 +732,7 @@ window.operateEvents={
 		    			$("#tb_zph").bootstrapTable("refresh");
 		    		},
 		    		error:function(){
-		    			document.getElementById("tipContent").innerText="重置失败";
+		    			document.getElementById("tipContent").innerText="重置失败，请查看是否拥有此权限";
 		    			$("#Tip").modal('show');
 		    		}
 		    	});	

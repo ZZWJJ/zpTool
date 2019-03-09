@@ -3,8 +3,8 @@ package com.learning.www.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.learning.www.entity.User;
 
@@ -36,6 +36,7 @@ public interface UserMapperService {
 	 * @param user
 	 * @return
 	 */
+	@Transactional
 	public int postUserInfo(User user);
 	
 	/***
@@ -43,6 +44,7 @@ public interface UserMapperService {
 	 * @param id
 	 * @return
 	 */
+	@Transactional
 	public int deleteUserInfo(int id);
 	
 	/***
@@ -50,6 +52,7 @@ public interface UserMapperService {
 	 * @param user
 	 * @return
 	 */
+	@Transactional
 	public int putUserInfoById(User user);
 	
 	/***
@@ -57,6 +60,7 @@ public interface UserMapperService {
 	 * @param user
 	 * @return
 	 */
+	@Transactional
 	public int putUserPasswordById(int id,String password,String salt);
 	
 }

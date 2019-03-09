@@ -67,6 +67,7 @@ public interface Zph2ComService {
 	 * @param addinfo
 	 * @return
 	 */
+	@Transactional
 	public int putAddInfoById(@Param("id")int id,@Param("addinfo")String addinfo);
 	
 	/***
@@ -87,6 +88,8 @@ public interface Zph2ComService {
 	 * @param zphid
 	 * @return
 	 */
+	@Transactional
 	public int deleteZphInfoByZphId(int zphid);
+	@Transactional
 	public int deleteComInfoByComId(int comid);
 }

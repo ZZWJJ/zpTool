@@ -98,8 +98,8 @@
                 <ul class="nav nav-second-level">
                     <li shiro:hasPermission="userManager"><a href="../admin/toAdmin">用户管理</a></li>
                     <li shiro:hasPermission="roleManager"><a href="../role/toRole">角色管理</a></li>
-                    <li><a href="../menu/toMenu">菜单管理</a></li>
-                    <li><a href="#">部门管理</a></li>
+                    <li shiro:hasPermission="menuManager"><a href="../menu/toMenu">菜单管理</a></li>
+                    <li shiro:hasPermission="deptManager"><a href="#">部门管理</a></li>
                 </ul>
             </li>
         </ul>

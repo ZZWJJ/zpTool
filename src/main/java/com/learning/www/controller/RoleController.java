@@ -2,6 +2,7 @@ package com.learning.www.controller;
 
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,6 +61,7 @@ public class RoleController {
 	 */
 	@RequestMapping("postRole")
 	@ResponseBody
+	@RequiresPermissions (value={"roleManagerAdd"})
 	public int postRole(String role_name,String role_desc,@RequestParam("_list[]") int[] _list) {
 		int ret = 0;	//返回参数  0：失败，1：成功，2：已存在
 		List<Integer> isExist = roleService.getRoleByNameAndDesc(role_name,role_desc);
@@ -106,6 +108,7 @@ public class RoleController {
 	 */
 	@RequestMapping("putRolePerm")
 	@ResponseBody
+	@RequiresPermissions (value={"roleManagerUpdate"})
 	public int putRolePerm(String id,String role_name,String role_desc,@RequestParam("_list[]") int[] _list) {
 		int role_id = Integer.parseInt(id);
 		int ret = roleService.putRolePermByRoleId(role_id, role_name, role_desc);
@@ -128,6 +131,7 @@ public class RoleController {
 	 */
 	@RequestMapping("deleteRole")
 	@ResponseBody
+	@RequiresPermissions (value={"roleManagerDelete"})
 	public int deleteRole(String id) {
 		int ret = 0;
 		int role_id = Integer.parseInt(id);
