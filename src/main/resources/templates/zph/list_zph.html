@@ -702,4 +702,12 @@ $("#time").datetimepicker({
 	minView : 2,
 });
 </script>
+<script type="text/javascript">
+    window.onload = function() {
+        $('.modal').on('hide.bs.modal', function() {
+            $("body").removeClass('modal-open');
+            $("body").css('padding-right','0px');
+        })
+    };
+</script>
 </html>

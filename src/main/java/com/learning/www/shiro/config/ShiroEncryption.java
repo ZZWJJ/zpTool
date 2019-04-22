@@ -20,6 +20,6 @@ public class ShiroEncryption {
 		String encodedPassword = new SimpleHash(algorithmName,password,salt,times).toString();
 		
 		// 返回加密后的密码
-		return encodedPassword;		
+		return encodedPassword;
 	}
 }

@@ -4856,7 +4856,8 @@ button.close {
   border: 0;
 }
 .modal-open {
-  overflow: hidden;
+    /* overflow: inherit ; */
+    padding-right: 0px !important;
 }
 .modal {
   position: fixed;

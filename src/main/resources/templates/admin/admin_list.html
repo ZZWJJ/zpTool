@@ -24,7 +24,8 @@
     
     <!-- 2、bootstrap组件引用 -->
     <script src="https://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	<link href="https://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+	<!-- <link href="https://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"> -->
+	<link href="../css/bootstrap.css" rel="stylesheet">
     
    <!--  3、bootstrap table组件以及中文包的引用 -->
     <script src="../js/bootstrap-table.js"></script>
@@ -578,7 +579,7 @@ function deleteUser(){
 				document.getElementById("tipContent").innerText="删除成功";
 				$("#Tip").modal('show');
 			}else{
-				document.getElementById("tipContent").innerText="删除失败,请至少选择一行数据";
+				document.getElementById("tipContent").innerText="删除失败,请至少选择一行数据"; 
 				$("#Tip").modal('show');
 			}
 			$("#tb_zph").bootstrapTable("refresh");
@@ -601,7 +602,7 @@ function getZph(){
 		var parentid = rows[0].id;
 		$("#tb_addZph").bootstrapTable('destroy'); 	// 在初始化table之前，要将table销毁，否则会保留上次加载的内容
         $('#tb_addZph').bootstrapTable({
-            url: '/zph/getZphInfo2Com',         //请求后台的URL（*）
+            url: '/zph/getZphInfo2Com',           //请求后台的URL（*）
             method: 'get',                      //请求方式（*）
             //toolbar: '#toolbar_zph',                //工具按钮用哪个容器
             striped: true,                      //是否显示行间隔色
@@ -631,15 +632,16 @@ function getZph(){
             //极为重要，缺失无法执行queryParams，传递page参数
 			//contentType : "application/x-www-form-urlencoded",
             columns: [{
+            	
                 checkbox: true
             }, {
                 field: 'id',
                 title: '招聘会编号',
                 sortable : true
-            }, {
+            }, { 
                 field: 'title',
                 title: '招聘主题',
-                sortable : true
+                sortable : true 
             }, {
                 field: 'time',
                 title: '招聘时间',
@@ -705,7 +707,7 @@ function operateFormatter(value, row, index) {
 
 window.operateEvents={
 	    //密码重置
-	    "click #btnEditPicGroupDetail":function (e, value, row, index) {
+	    "click #btnEditPicGroupDetail":function (e, value, row, index) { 
 	        var rows = $('#tb_zph').bootstrapTable('getSelections');	        
 	    	if(rows.length!=1){
 	    		document.getElementById("tipContent").innerText="请选中一位专员";
@@ -739,5 +741,13 @@ window.operateEvents={
 	    	}
 	}
 }
+</script>
+<script type="text/javascript">
+    window.onload = function() {
+        $('.modal').on('hide.bs.modal', function() {
+            $("body").removeClass('modal-open');
+            $("body").css('padding-right','0px');
+        })
+    };
 </script>
 </html>

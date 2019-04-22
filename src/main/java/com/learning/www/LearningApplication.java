@@ -13,6 +13,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
 import com.google.zxing.WriterException;
@@ -23,10 +25,12 @@ import com.learning.www.shiro.config.ShiroEncryption;
 import com.learning.www.utils.PrintImage;
 import com.learning.www.utils.PrintJobToImg;
 import com.learning.www.utils.QrCodeUtil;
+import com.learning.www.utils.Quartz;
 
 @SpringBootApplication
 @EnableAutoConfiguration
 @EnableCaching
+@EnableScheduling
 @MapperScan("com.learning.www.mapper")
 @Controller
 public class LearningApplication {
@@ -115,14 +119,13 @@ public class LearningApplication {
 //               System.out.println("字体："+fontList[i]);
 //          }
 //		try {
-//			QrCodeUtil.createQrCode("D:\\test\\qrcode.jpg","https://7265-release-1674e4-1257861373.tcb.qcloud.la/test/qh3H5L4Gnq?sceneCode=W8_ni1w3CBlYmvCe",1500,"JPEG");
+//			QrCodeUtil.createQrCode("D:\\test\\qrcode.jpg","https://mp.weixin.qq.com/mp/homepage?__biz=MjM5MjQ4MzQ5MQ==&hid=10&sn=4032d989520470d264438402090f4dfd&scene=18\r\n" + 
+//					"",1500,"JPEG");
 //		} catch (WriterException e) {
 //			e.printStackTrace();
 //		} catch (IOException e) {
 //			e.printStackTrace();
 //		}
 		// shiro 自带的工具类生成salt	
-		
-		
 	}
 }
