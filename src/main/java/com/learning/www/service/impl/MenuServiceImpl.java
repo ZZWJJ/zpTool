@@ -7,10 +7,12 @@ import com.learning.www.entity.Permission;
 import com.learning.www.mapper.MenuMapper;
 import com.learning.www.service.MenuService;
 
+import javax.annotation.Resource;
+
 @Service
 public class MenuServiceImpl implements MenuService{
 
-	@Autowired
+	@Resource
 	MenuMapper menuMapper;
 	
 	@Override

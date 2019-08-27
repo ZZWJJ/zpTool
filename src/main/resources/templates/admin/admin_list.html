@@ -8,43 +8,39 @@
     <meta name="renderer" content="webkit">
 
     <title>首页-后台管理系统</title>
-    <meta name="keywords" content="">
-    <meta name="description" content="">
 	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 
-    <!-- <link href="../css/bootstrap.min.css?v=3.4.0" rel="stylesheet"> -->
-    <link href="../font-awesome/css/font-awesome.css?v=4.3.0" rel="stylesheet">
+	<link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet">
 
-    <!-- Morris -->
-    <link href="../css/morris-0.4.3.min.css" rel="stylesheet">
+	<!-- Morris -->
+	<link th:href="@{/css/morris-0.4.3.min.css}" rel="stylesheet">
 
-    <!-- Gritter -->
-    <link href="../css/jquery.gritter.css" rel="stylesheet">
+	<!-- Gritter -->
+	<link th:href="@{/css/jquery.gritter.css}" rel="stylesheet">
 
+
+	<!-- 2、bootstrap组件引用 -->
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<link href="https://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+	<!--  3、bootstrap table组件以及中文包的引用 -->
+	<link th:href="@{/css/bootstrap-table.css}" rel="stylesheet">
+	<script th:src="@{/js/bootstrap-table.js}" rel="stylesheet"></script>
+	<script th:src="@{/js/bootstrap-table-zh-CN.js}" rel="stylesheet"></script>
+
+	<!-- 导出 -->
+	<script th:src="@{/js/bootstrap-table-export.min.js}" rel="stylesheet"></script>
+	<script th:src="@{/js/tableExport.js}" rel="stylesheet"></script>
+
+	<link th:href="@{/css/animate.css}" rel="stylesheet">
+	<link th:href="@{/css/style.css}" rel="stylesheet">
     
-    <!-- 2、bootstrap组件引用 -->
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	<!-- <link href="https://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"> -->
-	<link href="../css/bootstrap.css" rel="stylesheet">
-    
-   <!--  3、bootstrap table组件以及中文包的引用 -->
-    <script src="../js/bootstrap-table.js"></script>
-    <link href="../css/bootstrap-table.css" rel="stylesheet" />
-    <script src="../js/bootstrap-table-zh-CN.js"></script>
-    
-    <!-- 导出 -->
-	<script src="../js/bootstrap-table-export.min.js"></script>
-	<script src="../js/tableExport.js"></script>
-	
-	<link href="../css/animate.css" rel="stylesheet">
-    <link href="../css/style.css?v=2.2.0" rel="stylesheet">
-    
-    <!-- zTree -->        
-    <link href="../css/zTreeStyle.css" rel="stylesheet" />
-    <script src="../js/jquery.ztree.all.js"></script>
-    <script src="../js/jquery.ztree.core.js"></script>
-    <script src="../js/jquery.ztree.excheck.js"></script>
-    <script src="../js/jquery.ztree.exedit.js"></script>
+    <!-- zTree -->
+	<link th:href="@{/css/zTreeStyle.css}" rel="stylesheet">
+	<script th:src="@{/js/jquery.ztree.all.js}" rel="stylesheet"></script>
+	<script th:src="@{/js/jquery.ztree.core.js}" rel="stylesheet"></script>
+	<script th:src="@{/js/jquery.ztree.excheck.js}" rel="stylesheet"></script>
+	<script th:src="@{/js/jquery.ztree.exedit.js}" rel="stylesheet"></script>
     
     <!-- 使得表格头部和单元格中文字居中 -->
     <style type="text/css">
@@ -52,103 +48,105 @@
 			text-align: center;
 			vertical-align: middle!important;
 		}
+		body {
+			padding-right: 0px !important;
+		}
+		*.modal-open {
+			overflow-y: scroll;
+			padding-right: 0 !important;
+		}
     </style>
 </head>
 
 <body>
 <div id="wrapper">
     <!--左侧导航栏-->
-    <nav class='navbar-default navbar-static-side' role='navigation'>
-    <div class="sidebar-collapse">
-        <ul class="nav" id="side-menu">
-            <li class="nav-header">
-				
-                <div class="dropdown profile-element">
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="../test">
-                                <span class="clear"><b>招聘网后台管理系统</b></span>
-                    </a>
-                </div>
-            </li>
-            <li>
-                <a href="../test"><i class="fa fa-th-large"></i> <span class="nav-label">主页</span></a>
-            </li>
+	<nav class='navbar-default navbar-static-side' role='navigation' id="nav1">
+		<div class="sidebar-collapse">
+			<ul class="nav" id="side-menu">
+				<li class="nav-header">
 
-            <li>
-                <a href="../zph/toZph"><i class="fa fa fa-globe"></i> <span class="nav-label" shiro:hasPermission="systemZph">招聘会信息</span><span
-                        class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-<!--                     <li><a href="zph/add_zph.html">添加招聘会</a></li>
-                    <li><a href="zph/modify_zph.html">修改招聘会</a></li> -->
-                    <li shiro:hasPermission="zphManager"><a href="../zph/toZph">招聘会管理</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="../com/toCom"><i class="fa fa-envelope"></i> <span class="nav-label">企业信息</span>
-                    <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li><a href="../com/toCom">企业管理</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="../com/toMyCom"><i class="fa fa-flask"></i> <span
-                        class="nav-label" shiro:hasPermission="systemCom">我的企业</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <!-- <li><a href="user/add_com.html">添加企业</a></li> -->
-                    <li class="active" shiro:hasPermission="comManager"><a href="../com/toMyCom">我的企业管理</a></li>
-                </ul>
-            </li>
-
-            <li class="active">
-                <a href="#"><i class="fa fa-desktop"></i> <span
-                        class="nav-label" shiro:hasPermission="systemUser">管理员设置</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li class="active" shiro:hasPermission="userManager"><a href="#">用户管理</a></li>
-                    <li shiro:hasPermission="roleManager"><a href="../role/toRole">角色管理</a></li>
-                    <li shiro:hasPermission="menuManager"><a href="../menu/toMenu">菜单管理</a></li>
-                    <li shiro:hasPermission="deptManager"><a href="#">部门管理</a></li>
-                    <li shiro:hasPermission="deptManager"><a href="#">字典管理</a></li>
-                </ul>
-            </li>
-        </ul>
-
-    </div>
-</nav>
+					<div class="dropdown profile-element">
+						<a data-toggle="dropdown" class="dropdown-toggle" th:href="@{/admin/index}">
+							<span class="clear"><b>和兑律师后台管理系统</b></span>
+						</a>
+					</div>
+				</li>
+				<li>
+					<a th:href="@{/admin/index}"><i class="fa fa-th-large"></i> <span class="nav-label">主页</span></a>
+				</li>
+				<li>
+					<a th:href="@{/admin/baseinfo/toBaseInfo}"><i class="fa fa-th-large"></i> <span class="nav-label">网站基础设置</span></a>
+				</li>
+				<li>
+					<a th:href="@{/admin/column/toColumn}"><i class="fa fa-th-large"></i> <span class="nav-label">信息栏目管理</span></a>
+				</li>
+				<li>
+					<a th:href="@{/admin/news/toNews}"><i class="fa fa-th-large"></i> <span class="nav-label">新闻资讯管理</span></a>
+				</li>
+				<li>
+					<a th:href="@{/admin/case/toCases}"><i class="fa fa-th-large"></i> <span class="nav-label">案例管理</span></a>
+				</li>
+				<li>
+					<a th:href="@{/admin/page/toPage}"><i class="fa fa-th-large"></i> <span class="nav-label">单页管理</span></a>
+				</li>
+				<li>
+					<a th:href="@{/admin/friendurl/tofriendUrl}"><i class="fa fa-th-large"></i> <span class="nav-label">友情链接管理</span></a>
+				</li>
+				<li>
+					<a th:href="@{/admin/message/toMessage}"><i class="fa fa-th-large"></i> <span class="nav-label">在线留言管理</span></a>
+				</li>
+				<li>
+					<a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">SEO优化模块</span></a>
+				</li>
+				<li>
+					<a th:href="@{/admin/picword/topicword}"><i class="fa fa-th-large"></i> <span class="nav-label">图文替换管理</span></a>
+				</li>
+				<li class="active">
+					<a><i class="fa fa-desktop"></i> <span
+							class="nav-label" shiro:hasPermission="systemUser">管理员设置</span><span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level">
+						<li shiro:hasPermission="userManager"><a th:href="@{/admin/toAdmin}">用户管理</a></li>
+						<li shiro:hasPermission="roleManager"><a th:href="@{/admin/role/toRole}">角色管理</a></li>
+						<li shiro:hasPermission="menuManager"><a th:href="@{/admin/menu/toMenu}">菜单管理</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</nav>
     <!--左侧导航栏结束-->
     <div id="page-wrapper" class="gray-bg dashbard-1">
         <!--顶部导航-->
-        <script src="../js/frame/top.js"></script>
+		<script th:src="@{/js/frame/top.js}"></script>
         <!--顶部导航结束-->
 <div class="panel-body" style="padding-bottom:0px;">
          <div class="panel panel-default">
-<!--             <div class="panel-heading">查询条件</div>
+			 <div class="panel-heading">查询条件</div>
             <div class="panel-body">
                 <form id="formSearch" class="form-horizontal">
                     <div class="form-group" style="margin-top:15px">
-                        <label class="control-label col-sm-1" for="txt_search_departmentname">部门名称</label>
+                        <label class="control-label col-sm-1" for="txt_search_name">登录账号</label>
                         <div class="col-sm-3">
-                            <input type="text" class="form-control" id="txt_search_departmentname">
+                            <input type="text" class="form-control" id="txt_search_name">
                         </div>
-                        <label class="control-label col-sm-1" for="txt_search_statu">状态</label>
+                        <label class="control-label col-sm-1" for="txt_search_phone">电话号码</label>
                         <div class="col-sm-3">
-                            <input type="text" class="form-control" id="txt_search_statu">
+                            <input type="text" class="form-control" id="txt_search_phone">
                         </div>
                         <div class="col-sm-4" style="text-align:left;">
-                            <button type="button" style="margin-left:50px" id="btn_query" class="btn btn-primary">查询</button>
+                            <button type="button" style="margin-left:50px" id="btn_query" class="btn btn-primary" onclick="query()">查询</button>
                         </div>
                     </div>
                 </form>
-            </div> -->
+            </div>
         </div>
         <div id="toolbar" class="btn-group">
             <button type="button" class="btn btn-default" id="addBtn" data-toggle="modal" data-target="#addUserModal" shiro:hasPermission="userManagerAdd">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
             </button>
-            <button id="btn_edit" type="button" class="btn btn-default" data-toggle="modal" data-target="#editUserModal" onclick="editUser()" shiro:hasPermission="userManagerUpdate">
-                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
-            </button>
-<!--             <button id="btn_zph" type="button" class="btn btn-default" data-toggle="modal" data-target="#editUserModal" onclick="getZph()">
-                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>增加招聘会
-            </button> -->
+<!--            <button id="btn_edit" type="button" class="btn btn-default" data-toggle="modal" data-target="#editUserModal" onclick="editUser()" shiro:hasPermission="userManagerUpdate">-->
+<!--                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改-->
+<!--            </button>-->
             <button id="btn_delete" type="button" class="btn btn-default" data-toggle="modal" data-target="#deleteUserModal" onclick="deleteUser()" shiro:hasPermission="userManagerDelete">
                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
             </button>
@@ -157,7 +155,7 @@
     </div>
 
         <!--底部-->
-        <script src="../js/frame/footer.js"></script>
+<!--        <script src="../js/frame/footer.js"></script>-->
         <!--底部结束-->
     </div>
 </div>
@@ -167,30 +165,27 @@
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h3>新增专员信息</h3>
+						<h3>新增用户信息</h3>
 					</div>
 					<div class="modal-body">
 						<form id="addUserForm" action="/zph/postZphInfo" method="post" class="form-horizontal">
 							<div class="form-group">
-								<label for="inputAccount" class="col-sm-2 control-label">姓名</label>
+								<label for="username" class="col-sm-2 control-label">账号</label>
 								<div class="col-sm-7">
-									<input type="text" name="username" class="form-control" id="username" placeholder="专员姓名"/>
+									<input type="text" name="username" class="form-control" id="username" placeholder="账号"/>
 								</div>
-								<label id="errorAccount" for="inputAccount" class="col-sm-3 control-label"></label>
 							</div>
 							<div class="form-group">
-								<label for="inputName" class="col-sm-2 control-label">密码</label>
+								<label for="password" class="col-sm-2 control-label">密码</label>
 								<div class="col-sm-7">
 									<input type="text" name="password" class="col-sm-4 form-control" id="password" placeholder="密码"/>
 								</div>
-								<label id="errorName" for="inputName" class="col-sm-3 control-label"></label>
 							</div>
 							<div class="form-group">
-								<label for="inputName" class="col-sm-2 control-label">电话</label>
+								<label for="phone" class="col-sm-2 control-label">电话</label>
 								<div class="col-sm-7">
 									<input type="text" name="phone" class="col-sm-4 form-control" id="phone" placeholder="专员联系电话"/>
 								</div>
-								<label id="errorName" for="inputName" class="col-sm-3 control-label"></label>
 							</div>
 							<div class="content_wrap">
 							    <div class="zTreeDemoBackground left">
@@ -198,22 +193,21 @@
 							    </div>
 							</div>
  							<div class="form-group">
-								<label for="inputSex" class="col-sm-2 control-label">角色</label>
+								<label for="roleid" class="col-sm-2 control-label">角色</label>
 								<div class="col-sm-7">
-									<select name="role_id" class="col-sm-4 form-control">
+									<select name="role_id" class="col-sm-4 form-control" id="roleid">
 				                        <option value="">选择角色</option>
 				                        <!--playerRoleList后台获取到的集合th:each进行遍历,playerRole作为集合对象的变量名称,th:value="${playerRole.id}作为value值
 				                        th:text="${playerRole.name}"作为需要显示的内容-->
 				                        <option th:each="role:${roleList}" th:value="${role.id}"
-				                                th:text="${role.role_desc}"></option>				 
+				                                th:text="${role.role_name}"></option>
 				                    </select>
 								</div>
-								<label id="errorSex" for="inputSex" class="col-sm-3 control-label"></label>
 							</div>
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" id="conf" class="btn btn-default" onclick="addUser()">确定</button>
+						<button type="button" class="btn btn-default" onclick="addUser()">确定</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal" onclick="resetAddModal()">取消</button>
 					</div>
 				</div>				    
@@ -224,7 +218,7 @@
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h3>修改专员信息</h3>
+						<h3>修改用户信息</h3>
 					</div>
 					<div class="modal-body">
 						<form id="editForm" method="post" class="form-horizontal">
@@ -236,37 +230,39 @@
 								<label id="errorId" for="editId" class="col-sm-3 control-label"></label>
 							</div>
 							<div class="form-group">
-								<label for="inputAccount" class="col-sm-2 control-label">姓名</label>
+								<label for="editUsername" class="col-sm-2 control-label">账号</label>
 								<div class="col-sm-7">
-									<input type="text" name="username" class="form-control" id="editUsername" placeholder="专员姓名"/>
+									<input type="text" name="username" class="form-control" id="editUsername" placeholder="账号"/>
 								</div>
-								<label id="errorAccount" for="inputAccount" class="col-sm-3 control-label"></label>
 							</div>
-
 							<div class="form-group">
-								<label for="inputName" class="col-sm-2 control-label">电话</label>
+								<label for="editPhone" class="col-sm-2 control-label">电话</label>
 								<div class="col-sm-7">
 									<input type="text" name="phone" class="col-sm-4 form-control" id="editPhone" placeholder="专员联系电话"/>
 								</div>
-								<label id="errorName" for="inputName" class="col-sm-3 control-label"></label>
 							</div>
 							<div class="form-group">
-								<label for="inputSex" class="col-sm-2 control-label">角色</label>
+								<label for="editpassword" class="col-sm-2 control-label">密码</label>
+								<div class="col-sm-7">
+									<input type="text" name="password" class="col-sm-4 form-control" id="editpassword" placeholder="修改密码时填写"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="selectorRole" class="col-sm-2 control-label">角色</label>
 								<div class="col-sm-7">
 									<select id="selectorRole" name="role_id" class="col-sm-4 form-control">
 				                        <option value="">选择角色</option>
 				                        <!--playerRoleList后台获取到的集合th:each进行遍历,playerRole作为集合对象的变量名称,th:value="${playerRole.id}作为value值
 				                        th:text="${playerRole.name}"作为需要显示的内容-->
 				                        <option th:each="role:${roleList}" th:value="${role.id}" 
-				                                th:text="${role.role_desc}"></option>				 
+				                                th:text="${role.role_name}"></option>
 				                    </select>
 								</div>
-								<label id="errorSex" for="inputSex" class="col-sm-3 control-label"></label>
 							</div>
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" id="conf" class="btn btn-default" onclick="updateUser()">确定</button>
+						<button type="button" class="btn btn-default" onclick="updateUser()">确定</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal" onclick="resetAddModal()">取消</button>
 					</div>
 				</div>				
@@ -339,22 +335,19 @@
 
 
 <!-- Mainly 导航栏收缩 -->
-<!-- <script src="js/jquery-2.1.1.min.js"></script>
-<script src="js/bootstrap.min.js?v=3.4.0"></script> -->
-<script src="../js/plugins/jquery.metisMenu.js"></script>
-<script src="../js/plugins/jquery.slimscroll.min.js"></script>
+<script th:src="@{/js/plugins/jquery.metisMenu.js}" rel="stylesheet"></script>
+<script th:src="@{/js/plugins/jquery.slimscroll.min.js}" rel="stylesheet"></script>
 
 <!-- Peity -->
-<script src="../js/plugins/jquery.peity.min.js"></script>
-<script src="../js/plugins/peity-demo.js"></script>
+<script th:src="@{/js/plugins/jquery.peity.min.js}" rel="stylesheet"></script>
+<script th:src="@{/js/plugins/peity-demo.js}" rel="stylesheet"></script>
 
 <!--导航栏收缩-->
-<!-- Custom and plugin javascript -->
-<script src="../js/hplus.js?v=2.2.0"></script>
-<script src="../js/plugins/pace.min.js"></script>
+<script th:src="@{/js/hplus.js}" rel="stylesheet"></script>
+<script th:src="@{/js/plugins/pace.min.js}" rel="stylesheet"></script>
 
 <!-- jQuery UI -->
-<script src="../js/plugins/jquery-ui.min.js"></script>
+<script th:src="@{/js/plugins/jquery-ui.min.js}" rel="stylesheet"></script>
 </body>
 <script>
 $(function () {
@@ -375,48 +368,64 @@ var TableInit = function () {
     //初始化Table
     oTableInit.Init = function () {
         $('#tb_zph').bootstrapTable({
-            url: '/admin/getUserInfo',         	//请求后台的URL（*）
-            method: 'post',                      //请求方式（*）
+            url: './getUserInfo',         	//请求后台的URL（*）
+            method: 'get',                      //请求方式（*）
             toolbar: '#toolbar',                //工具按钮用哪个容器
             striped: true,                      //是否显示行间隔色
             cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
             pagination: true,                   //是否显示分页（*）
-            sortable: true,                     //是否启用排序
-            sortOrder: "asc",                   //排序方式
+            //sortable: true,                     //是否启用排序
+            //sortOrder: "asc",                   //排序方式
             //queryParams: oTableInit.queryParams,//传递参数（*）
-            sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+			sidePagination: "server",
+			queryParamsType:'undefined',
+            //sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
             pageNumber:1,                       //初始化加载第一页，默认第一页
             pageSize: 10,                       //每页的记录行数（*）
             pageList: [5,10, 25, 50, 100],        //可供选择的每页的行数（*）
-            search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+			queryParams: queryParamsByBegin,
+            //search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
             //strictSearch: true,
             showColumns: true,                  //是否显示所有的列
-            showRefresh: true,                  //是否显示刷新按钮
+            //showRefresh: true,                  //是否显示刷新按钮
             minimumCountColumns: 2,             //最少允许的列数
             clickToSelect: true,                //是否启用点击选中行
-            height: 800,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+            //height: 800,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
             uniqueId: "id",                     //每一行的唯一标识，一般为主键列
             showToggle:true,                    //是否显示详细视图和列表视图的切换按钮
             cardView: false,                    //是否显示详细视图
             //detailView: true,                   //是否显示父子表
             showExport: true,                     //是否显示导出
-            exportDataType: "basic",              //basic', 'all', 'selected'.
+            exportDataType: "all",              //basic', 'all', 'selected'.
+			responseHandler: function (res) {//在ajax请求成功后，填充数据之前可以对返回的数据进行处理
+				var data = res["rows"];
+				return {
+					"total": res.total,//总页数
+					"pageNumber": res.pageNumber,
+					"rows" : res.rows
+				};
+			},
             columns: [{
                 checkbox: true
             }, {
                 field: 'id',
-                title: '员工编号',
+                title: '编号',
                 width: '160px',
-                sortable : true
+                //sortable : true
             }, {
                 field: 'username',
-                title: '专员姓名',
+                title: '登录账号',
                 width: '320px',
-                sortable : true
-            },	{
+                //sortable : true
+            }, {
+				field: 'role',
+				title: '绑定角色',
+				width: '320px',
+				//sortable : true
+			},	{
                 field: 'phone',
-                title: '专员电话',
-                sortable : true
+                title: '联系电话',
+                //sortable : true
             }, {
                 field: 'Button',
                 title: '操作',
@@ -427,20 +436,17 @@ var TableInit = function () {
 
         });
     };
-    //得到查询的参数
-/*     oTableInit.queryParams = function (params) {
-        var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
-            limit: params.limit,   //页面大小
-            offset: params.offset,  //页码
-            departmentname: $("#txt_search_departmentname").val(),
-            statu: $("#txt_search_statu").val()
-        };
-        return temp;
-    }; */
+	// 以起始页码方式传入参数,params为table组装参数
+	function queryParamsByBegin(params){
+		return{
+			pageSize: params.pageSize,
+			pageNum: params.pageNumber,
+			username : $("#txt_search_name").val(),
+			phone : $("#txt_search_phone").val()
+		}
+	};
     return oTableInit;
 };
-
-
 
 var ButtonInit = function () {
     var oInit = new Object();
@@ -454,7 +460,9 @@ var ButtonInit = function () {
 };	
 </script>
 <script>
-
+function query() {
+		$("#tb_zph").bootstrapTable('refresh');
+	}
 //点击取消后清空表单中已写信息
 function resetAddModal(){
 	document.getElementById("addUserForm").reset();
@@ -462,16 +470,16 @@ function resetAddModal(){
 //新增用户
 function addUser(){
 	var param = $("#addUserForm").serializeArray();
-	console.log(param);
+	//console.log(param);
 	//debugger;
 	$("#conf").attr("onclick","addUser()");
 	$.ajax({
-		url:"/admin/postUserInfo",
+		url:"./postUserInfo",
 		method:"post",
 		data:param,
 		dataType:"json",
 		success:function(data){ 
-			console.log(data);
+			//console.log(data);
 			if(data==1){
 				document.getElementById("add").innerText="新增成功";
 				$("#addEnd").modal('show');
@@ -495,21 +503,21 @@ function addUser(){
 	});
 }
 //修改用户
-function editUser(){
+function editUser(row){
 	//获取选中行的数据
-	var rows = $("#tb_zph").bootstrapTable('getSelections');
-	console.log(rows);
-	if(rows.length!=1){
-		document.getElementById("tipContent").innerText="请选择一行数据";
-		$("#Tip").modal('show');
-	}
-	else{
-	var row = rows[0];
+	// var rows = $("#tb_zph").bootstrapTable('getSelections');
+	// //console.log(rows);
+	// if(rows.length!=1){
+	// 	document.getElementById("tipContent").innerText="请选择一行数据";
+	// 	$("#Tip").modal('show');
+	// }
+	// else{
+	//var row = rows[0];
 	$('#editId').val(row.id);
 	$('#editUsername').val(row.username);
 	$('#editPhone').val(row.phone);
 	$.ajax({
-		url:"/admin/getUserInfoById",
+		url:"./getUserInfoById",
 		method:"post",
 		data:{id:row.id},
 		dataType:"json",
@@ -530,14 +538,14 @@ function editUser(){
 		}
 	});
 	
-	}
+	// }
 }
 function updateUser(){
 	var param = $("#editForm").serializeArray();
-	console.log(param);
+	//console.log(param);
 	//设为disable则无法获取
 	$.ajax({
-		url:"/admin/putUserInfoById",
+		url:"./putUserInfoById",
 		method:"post",
 		data:param,
 		dataType:"json",
@@ -567,7 +575,7 @@ function deleteUser(){
 	console.log(ids);
 	debugger;
 	$.ajax({
-		url:"/admin/delUserInfo",
+		url:"./delUserInfo",
 		//dataType:"json",
 		//traditional: true,//属性在这里设置
 		method:"post",
@@ -590,116 +598,39 @@ function deleteUser(){
 		}
 	});
 }
-/* 得到招聘会列表  */
-function getZph(){
-	var oTableInit = new Object();
-	//获取选中行的数据
-	var rows = $("#tb_zph").bootstrapTable('getSelections');
-	if(rows.length!=1){
-		document.getElementById("tipContent").innerText="请选择一家企业";
-		$("#Tip").modal('show');
-	}else{
-		var parentid = rows[0].id;
-		$("#tb_addZph").bootstrapTable('destroy'); 	// 在初始化table之前，要将table销毁，否则会保留上次加载的内容
-        $('#tb_addZph').bootstrapTable({
-            url: '/zph/getZphInfo2Com',           //请求后台的URL（*）
-            method: 'get',                      //请求方式（*）
-            //toolbar: '#toolbar_zph',                //工具按钮用哪个容器
-            striped: true,                      //是否显示行间隔色
-            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
-            pagination: true,                   //是否显示分页（*）
-            sortable: true,                     //是否启用排序
-            sortOrder: "asc",                   //排序方式
-            queryParams: { comid: parentid },		//参数
-            ajaxOptions: { comid: parentid },		//ajax参数
-            sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
-            pageNumber:1,                       //初始化加载第一页，默认第一页
-           	pageSize: 10,                       //每页的记录行数（*）
-            pageList: [5,10, 25, 50, 100],        //可供选择的每页的行数（*）
-            search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
-            //strictSearch: true,
-            showColumns: true,                  //是否显示所有的列
-            showRefresh: true,                  //是否显示刷新按钮
-            minimumCountColumns: 2,             //最少允许的列数
-            clickToSelect: true,                //是否启用点击选中行
-            //height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-            uniqueId: "id",                     //每一行的唯一标识，一般为主键列
-            showToggle:true,                    //是否显示详细视图和列表视图的切换按钮
-            cardView: false,                    //是否显示详细视图
-            //detailView: true,                   //是否显示父子表
-            //showExport: true,                     //是否显示导出
-            //exportDataType: "basic",              //basic', 'all', 'selected'.
-            //极为重要，缺失无法执行queryParams，传递page参数
-			//contentType : "application/x-www-form-urlencoded",
-            columns: [{
-            	
-                checkbox: true
-            }, {
-                field: 'id',
-                title: '招聘会编号',
-                sortable : true
-            }, { 
-                field: 'title',
-                title: '招聘主题',
-                sortable : true 
-            }, {
-                field: 'time',
-                title: '招聘时间',
-                sortable : true
-            }],         
-        });	
-        $("#addzphModal").modal('show');
-	}
-}
-</script>
-<script>
-/*	增加招聘会	*/
-function addZph(){
-	var comid = [];
-	var zphid=[];
-	
-	var com = $("#tb_zph").bootstrapTable('getSelections');
-	var zph = $("#tb_addZph").bootstrapTable('getSelections');
-	var len = zph.length;
-	
-	comid.push(com[0].id);
-	for(var i=0;i<len;i++){
-		zphid.push(zph[i].id);
-	}
-	
-	console.log(comid);
-	console.log(zphid);
-
+//根据id删除
+function delUserById(id) {
 	$.ajax({
-		url:"/com/getZphComid",
+		url: "./deleteUserById",
 		//dataType:"json",
 		//traditional: true,//属性在这里设置
-		method:"post",
-		data:{
-			"comid":comid,
-			"zphid":zphid
+		method: "post",
+		data: {
+			"id": id
 		},
-		success:function(data){
-			if(data == 1){
-				$("#addzphModal").modal('hide');
-				document.getElementById("tipContent").innerText="添加成功";
+		success: function (data) {
+			if (data == 1) {
+				document.getElementById("tipContent").innerText = "删除成功";
 				$("#Tip").modal('show');
-			}else{
-				document.getElementById("tipContent").innerText="添加失败,请至少选择一行数据";
+			} else {
+				document.getElementById("tipContent").innerText = "删除失败,请至少选择一行数据";
 				$("#Tip").modal('show');
 			}
 			$("#tb_zph").bootstrapTable("refresh");
 		},
-		error:function(){
-			document.getElementById("tipContent").innerText="添加失败";
+		error: function () {
+			document.getElementById("tipContent").innerText = "删除失败";
 			$("#Tip").modal('show');
 		}
-	});	
-} 
-
+	});
+}
+</script>
+<script>
 function operateFormatter(value, row, index) {
     return [
         '<div class="btn-group">',
+		'<button id="editorUser" type="button" class="btn btn-info"  singleSelected=true><span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span>编辑</button>',
+		'<button id="delUser" type="button" class="btn btn-danger"  singleSelected=true><span class="glyphicon glyphicon-remove" aria-hidden="true">删除</button>',
         '<button id="btnEditPicGroupDetail" type="button" class="btn btn-default" style="color:white;background-color:#1E90FF" singleSelected=true>密码重置</button>',
         '</div>'
     ].join('');
@@ -707,15 +638,10 @@ function operateFormatter(value, row, index) {
 
 window.operateEvents={
 	    //密码重置
-	    "click #btnEditPicGroupDetail":function (e, value, row, index) { 
-	        var rows = $('#tb_zph').bootstrapTable('getSelections');	        
-	    	if(rows.length!=1){
-	    		document.getElementById("tipContent").innerText="请选中一位专员";
-	    		$("#Tip").modal('show');
-	    	}else{
-	    		var uid = rows[0].id;
+	    "click #btnEditPicGroupDetail":function (e, value, row, index) {
+	    		var uid = row.id;
 		        $.ajax({
-		    		url:"/admin/putUserPasswordById",
+		    		url:"./putUserPasswordById",
 		    		//dataType:"json",
 		    		//traditional: true,//属性在这里设置
 		    		method:"post",
@@ -725,7 +651,7 @@ window.operateEvents={
 		    		success:function(data){
 		    			if(data == 1){
 		    				$("#addzphModal").modal('hide');
-		    				document.getElementById("tipContent").innerText="重置成功";
+		    				document.getElementById("tipContent").innerText="重置成功，重置后密码统一为：123456";
 		    				$("#Tip").modal('show');
 		    			}else{
 		    				document.getElementById("tipContent").innerText="重置失败,请至少选择一行数据";
@@ -737,17 +663,14 @@ window.operateEvents={
 		    			document.getElementById("tipContent").innerText="重置失败，请查看是否拥有此权限";
 		    			$("#Tip").modal('show');
 		    		}
-		    	});	
-	    	}
+		    	});
+	},
+	"click #editorUser":function (e, value, row, index) {
+		editUser(row);
+	},
+	"click #delUser":function (e, value, row, index) {
+		delUserById(row.id);
 	}
 }
-</script>
-<script type="text/javascript">
-    window.onload = function() {
-        $('.modal').on('hide.bs.modal', function() {
-            $("body").removeClass('modal-open');
-            $("body").css('padding-right','0px');
-        })
-    };
 </script>
 </html>

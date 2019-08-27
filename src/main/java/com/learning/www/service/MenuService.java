@@ -5,7 +5,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.learning.www.entity.Permission;
 
-@Service
 public interface MenuService {
 
 	@Transactional

@@ -2,6 +2,7 @@ package com.learning.www.service.impl;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +11,12 @@ import com.learning.www.entity.Role;
 import com.learning.www.mapper.RoleMapper;
 import com.learning.www.service.RoleService;
 
+import javax.annotation.Resource;
+
 @Service
 public class RoleServiceImpl implements RoleService{
 
-	@Autowired
+	@Resource
 	RoleMapper roleMapper;
 	
 	@Override
@@ -22,8 +25,8 @@ public class RoleServiceImpl implements RoleService{
 	}
 
 	@Override
-	public List<Role> getRoleList() {
-		return roleMapper.getRoleList();
+	public List<Role> getRoleList( String name, String desc) {
+		return roleMapper.getRoleList(name,desc);
 	}
 
 	@Override

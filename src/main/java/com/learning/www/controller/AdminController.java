@@ -1,8 +1,12 @@
 package com.learning.www.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,36 +40,41 @@ public class AdminController {
 	@Value("${MyUser.password}")
 	private String password;
 	
-	private static Logger logger = LoggerFactory.getLogger(ZphInfoController.class);
-	
-	/***
-	 * 错误页面
-	 * @return
-	 */
-	@RequestMapping("403")
-	public String to403() {
-		return "403";
+	private static Logger logger = LoggerFactory.getLogger(AdminController.class);
+
+	@RequestMapping("/403")
+	public String toError(){
+		return "error";
 	}
-	
+
+
+
 	@RequestMapping("/toAdmin")
 	public String toAdmin(Model model) {
-		List<Role> roleList = roleService.getRoleList();
+		List<Role> roleList = roleService.getRoleList("","");
 		model.addAttribute("roleList", roleList);
 		return "admin/admin_list";
 	}
     	
 	/***
 	 * GET：查询	用户信息
-	 * @param model
+	 * @param
 	 * @return
 	 */
 	@RequestMapping("getUserInfo")
 	@ResponseBody
-	public List<User> getUserInfo(Model model) {              
+	public Map getUserInfo(int pageNum, int pageSize, String username, String phone) {
+		PageHelper.startPage(pageNum,pageSize);
 		List<User> userList = new ArrayList<User>();
-		userList = userservice.getUserInfo();
-		logger.info("取得所有用户信息："+userList.toString());
-		return userList; 		
+		userList = userservice.getUserInfo(username,phone);
+
+		PageInfo<User> pageInfo = new PageInfo<>(userList);
+		Map<String,Object> responseMap = new HashMap<String,Object>();
+		responseMap.put("rows",pageInfo.getList());
+		responseMap.put("total",pageInfo.getTotal());
+		responseMap.put("pageNumber",pageInfo.getPageNum());
+
+		return responseMap;
 	} 
 	
 	/***
@@ -102,7 +111,7 @@ public class AdminController {
 	
 	/***
 	 * DELETE：删除	指定ID的用户
-	 * @param id
+	 * @param
 	 * @return
 	 */
 	@RequestMapping("delUserInfo")
@@ -121,25 +130,49 @@ public class AdminController {
 		}						
 		return flag;		
 	}
-	
-	
+
+	/***
+	 * 根据id删除
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("deleteUserById")
+	@ResponseBody
+	public int deleteUserById(int id) {
+		int ret = userservice.deleteUserInfo(id);
+		return ret;
+	}
 	/***
 	 * PUT：更新	用户信息
-	 * @param zphinfo
+	 * @param
 	 * @return
 	 */
 	@RequestMapping("putUserInfoById")
 	@ResponseBody
 	@RequiresPermissions (value={"userManagerUpdate"})
-	public int putUserInfoById(User user) { 
-		
-		int ret = userservice.putUserInfoById(user);
+	public int putUserInfoById(User user) {
+		int ret = 0;
+		int flag = 0;
+		if (null == user.getPassword() || "".equals(user.getPassword())){
+			ret = userservice.putUserInfoById(user);
+		}else {
+			ret = userservice.putUserInfoById(user);
+			flag = userservice.putUserPasswordById(user.getId(),user.getPassword(),"");
+			if (ret > 0 && flag > 0){
+				ret = 1;
+			}
+		}
+
 		logger.info("已经更新用户信息，id为："+user.getId());
 		
 		return ret;
 	}
-	
-	
+
+	/***
+	 * 重置密码
+	 * @param uid
+	 * @return
+	 */
 	@RequestMapping("putUserPasswordById")
 	@ResponseBody
 	@RequiresPermissions (value={"userManagerUpdatePassword"})

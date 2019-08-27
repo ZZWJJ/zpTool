@@ -3,19 +3,19 @@ package com.learning.www.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.learning.www.entity.User;
 
-@Service
 public interface UserMapperService {
 	
 	/***
 	 * get 得到所有用户的信息
 	 * @return
 	 */
-	public List<User> getUserInfo();
+	public List<User> getUserInfo(@Param("username") String username, @Param("phone")String phone);
 	
 	/***
 	 * get 根据id得到用户的信息
@@ -57,7 +57,7 @@ public interface UserMapperService {
 	
 	/***
 	 * put 重置pasword
-	 * @param user
+	 * @param id
 	 * @return
 	 */
 	@Transactional

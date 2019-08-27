@@ -18,6 +18,10 @@ public class Node {
 	private Integer pId;
 	// 节点名称
 	private String name;
+	//排序序号 用于栏目
+	private int sortnum;
+	//是否展示 用于栏目
+	private int isshow;
 	// 需要自定义图片时，使用该属性
 	private String iconSkin;
 	// 需要自定义图片时，使用该属性

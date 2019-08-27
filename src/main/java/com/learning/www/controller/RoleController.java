@@ -1,7 +1,12 @@
 package com.learning.www.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.learning.www.entity.PageBean;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +19,7 @@ import com.learning.www.entity.Role;
 import com.learning.www.service.RoleService;
 
 @Controller
-@RequestMapping("role")
+@RequestMapping("admin/role")
 public class RoleController {
 
 	@Autowired
@@ -38,7 +43,8 @@ public class RoleController {
 	 * @return
 	 */
 	@RequestMapping("toRole")
-	public String toRole() {		
+	public String toRole() {
+
 		return "admin/Role";				
 	}
 	/***
@@ -47,9 +53,18 @@ public class RoleController {
 	 */
 	@RequestMapping("getRole")
 	@ResponseBody
-	public List<Role> getRole(){
-		List<Role> roleList = roleService.getRoleList();		
-		return roleList;		
+	public Map getRole(int pageNum, int pageSize,String name,String desc){
+		//System.out.println(pageNum);
+		PageHelper.startPage(pageNum,pageSize);
+		List<Role> roleList = roleService.getRoleList(name,desc);
+
+		PageInfo<Role> pageInfo = new PageInfo<>(roleList);
+		Map<String,Object> responseMap = new HashMap<String,Object>();
+		responseMap.put("rows",pageInfo.getList());
+		responseMap.put("total",pageInfo.getTotal());
+		responseMap.put("pageNumber",pageInfo.getPageNum());
+
+		return responseMap;
 	}
 	
 	/***
@@ -100,7 +115,6 @@ public class RoleController {
 	
 	/***
 	 * 更新角色权限信息
-	 * @param role_id
 	 * @param role_name
 	 * @param role_desc
 	 * @param _list
@@ -142,11 +156,4 @@ public class RoleController {
 		}
 		return ret;
 	}
-	
-	
-	
-	
-	
-	
-	
 }

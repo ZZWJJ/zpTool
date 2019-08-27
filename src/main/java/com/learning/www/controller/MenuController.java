@@ -16,7 +16,7 @@ import com.learning.www.service.MenuService;
 import com.learning.www.service.RoleService;
 
 @Controller
-@RequestMapping("menu")
+@RequestMapping("admin/menu")
 public class MenuController {
 	
 	@Autowired
@@ -24,7 +24,7 @@ public class MenuController {
 	@Autowired
 	MenuService menuService;
 	
-	private static Logger logger = LoggerFactory.getLogger(ZphInfoController.class);
+	private static Logger logger = LoggerFactory.getLogger(MenuController.class);
 	/***
 	 * 页面：菜单管理
 	 * @return

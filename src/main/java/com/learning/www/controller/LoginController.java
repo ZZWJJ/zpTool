@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,32 +28,37 @@ import com.learning.www.service.UserMapperService;
  * @Time 22:28
  */
 @Controller
+@RequestMapping("/admin")
 public class LoginController {
     private final ResultMap resultMap;
-    private final UserMapper userMapper;
+    //private final UserMapper userMapper;
 
     @Autowired
-    UserMapperService userservice;
+    private UserMapperService userservice;
     
     private static Logger log = LoggerFactory.getLogger(LoginController.class);
+
+    @GetMapping()
+    public String toLogin() {
+        return "login";
+    }
     
     @Autowired
     public LoginController(ResultMap resultMap, UserMapper userMapper) {
         this.resultMap = resultMap;
-        this.userMapper = userMapper;
     }
+    @RequestMapping("index")
+    public String test() {
+        return "index";
+    }
+
 
     @RequestMapping(value = "/notLogin", method = RequestMethod.GET)
     public String notLogin() {
         return "login";
     }
 
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    //@RequiresPermissions("admin:test")
-    public String test() {
-        return "index";
-    }
-    
+
     @RequestMapping(value = "/notRole", method = RequestMethod.GET)
     @ResponseBody
     public ResultMap notRole() {    
@@ -97,17 +103,12 @@ public class LoginController {
 			return "error";
 		}
         //根据权限，指定返回数据
-        User user = userMapper.getPasswordByUsername(username);
+        User user = userservice.getPasswordByUsername(username);
         if (null != user) {
             return "ok";
         }
         return "error";
     }
-    
-    @RequestMapping("toTable")
-	public String toTable() {
-		return "bootstraptable";
-	}
 }
 
 

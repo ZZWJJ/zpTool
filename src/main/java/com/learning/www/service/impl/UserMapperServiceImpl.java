@@ -3,6 +3,7 @@ package com.learning.www.service.impl;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,10 +13,12 @@ import com.learning.www.mapper.UserMapper;
 import com.learning.www.service.UserMapperService;
 import com.learning.www.shiro.config.ShiroEncryption;
 
+import javax.annotation.Resource;
 
 @Service
 public class UserMapperServiceImpl implements UserMapperService{
-	@Autowired
+
+	@Resource
 	private UserMapper userMapper;
 
 	@Override
@@ -24,8 +27,8 @@ public class UserMapperServiceImpl implements UserMapperService{
 	}
 
 	@Override
-	public List<User> getUserInfo() {
-		return userMapper.getUserInfo();
+	public List<User> getUserInfo( String username, String phone) {
+		return userMapper.getUserInfo(username,phone);
 	}
 
 	@Override

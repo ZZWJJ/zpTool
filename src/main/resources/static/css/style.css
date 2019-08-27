@@ -3833,7 +3833,9 @@ a.close-canvas-menu:hover {
   margin: 30px 0;
 }
 body.modal-open {
-  padding-right: inherit !important;
+  overflow: inherit ;
+  padding-right: 0px !important;
+  /*padding-right: inherit !important;*/
 }
 /* SEARCH PAGE */
 .search-form {

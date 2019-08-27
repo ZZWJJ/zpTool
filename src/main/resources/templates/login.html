@@ -1,14 +1,13 @@
 <!DOCTYPE HTML>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>盐城招聘网后台管理系统</title>
-<link href="../css/style_login.css" rel="stylesheet" type="text/css" media="all" />
+<link th:href="@{/css/style_login.css}" rel="stylesheet">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
-<!-- -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script>var __links = document.querySelectorAll('a');function __linkClick(e) { parent.window.postMessage(this.href, '*');} ;for (var i = 0, l = __links.length; i < l; i++) {if ( __links[i].getAttribute('data-t') == '_blank' ) { __links[i].addEventListener('click', __linkClick, false);}}</script>
-<script src="../js/jquery-2.1.1.min.js"></script>
+<script th:src="@{/js/jquery-2.1.1.min.js}" rel="stylesheet"></script>
 <script>$(document).ready(function(c) {
 	$('.alert-close').on('click', function(c){
 		$('.message').fadeOut('slow', function(c){
@@ -28,7 +27,7 @@ function sendAjax()
         //var rememberMe =$('#rememberMe').is(':checked');
  $.ajax(
     {
-        url:"/login",
+        url:"/admin/login",
         data:{"username":username,"password":password},
         type:"post",
         /* dataType:"json", */
@@ -36,7 +35,7 @@ function sendAjax()
         { 
              if(data == 'ok'){
               	//alert(data);
-              	self.location.href='test';
+              	self.location.href='/admin/index';
               	return false; 
              }else{
             	$("#erro").html("登录失败，用户名或密码不正确！");
@@ -62,17 +61,16 @@ function sendAjax()
 		<form>
 			<div id="tip" style="display:none"><h4 id="erro" style="color:red;"></h4></div>
 			<li>
-				<input id="username" type="text" class="text" value="Username" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Username';}"><a href="#" class=" icon user"></a>
+				<input id="username" type="text" class="text" value="Username" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '用户名';}"><a href="#" class=" icon user"></a>
 			</li>
 				<div class="clear"> </div>
 			<li>
-				<input id="password" type="password" value="Password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}"> <a href="#" class="icon lock"></a>
+				<input id="password" type="password" value="Password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '密码';}"> <a href="#" class="icon lock"></a>
 			</li>
 			<div class="clear"> </div>
 			<div class="submit">
 				<input type="button" onclick="sendAjax()" value="登	陆" style="">
-				<h4><a href="#">Lost your Password ?</a></h4>
-						  <div class="clear">  </div>	
+				<div class="clear">  </div>
 			</div>
 				
 		</form>
@@ -80,9 +78,9 @@ function sendAjax()
 	</div>
 	<div class="clear"> </div>
 <!--- footer --->
-<div class="footer">
-	<p>Copyright &copy; 2018.</p>
-</div>
+<!--<div class="footer">-->
+<!--	<p>Copyright &copy; 2018.</p>-->
+<!--</div>-->
 
 </body>
 </html>

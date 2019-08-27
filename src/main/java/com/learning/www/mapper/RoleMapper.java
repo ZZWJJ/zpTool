@@ -18,8 +18,8 @@ public interface RoleMapper {
 	@Select("SELECT p.id id, p.parent_id pId, p.perm_desc name, p.level level, p.perm_token token FROM permission p")
 	public List<Node> getTree();
 	
-	@Select("SELECT * FROM role")
-	public List<Role> getRoleList();
+	@Select("SELECT * FROM role WHERE role_name LIKE CONCAT('%',#{name},'%') and role_desc LIKE CONCAT('%',#{desc},'%')")
+	public List<Role> getRoleList(@Param("name") String name,@Param("desc")String desc);
 	
 	@Select("SELECT role_name FROM role where id=#{id}")
 	public String getRoleNmae(int id);

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import com.learning.www.entity.User;
 
-@Repository
 @Mapper
 public interface UserMapper {
 
@@ -22,8 +21,9 @@ public interface UserMapper {
 	@Select("select * from user where id=#{id}")
 	public User getUserdById(int id);
 	
-	@Select("select * from user")
-	public List<User> getUserInfo();
+	@Select("SELECT u.id,u.username,u.phone,r.role_name role FROM user u left join role r on u.role_id = r.id" +
+			" WHERE u.username LIKE CONCAT('%',#{username},'%') and u.phone LIKE CONCAT('%',#{phone},'%') order by u.id desc")
+	public List<User> getUserInfo(@Param("username") String username,@Param("phone")String phone);
 	
 	@Insert("insert into user(username,password,salt,phone,role_id) values(#{username},#{password},#{salt},#{phone},#{role_id})")
 	public int postUserInfo(User user);

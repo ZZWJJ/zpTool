@@ -2,18 +2,18 @@ package com.learning.www.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.learning.www.entity.Node;
 import com.learning.www.entity.Role;
 
-@Service
 public interface RoleService {
 	
 	public List<Node> getTree();
 	
-	public List<Role> getRoleList();
+	public List<Role> getRoleList(@Param("name") String name, @Param("desc")String desc);
 	
 	public String getRoleNmae(int id);
 	

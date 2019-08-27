@@ -4,8 +4,14 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
+import java.util.Properties;
 
+import com.github.pagehelper.PageHelper;
+import com.learning.www.entity.FriendUrl;
+import com.learning.www.service.FriendUrlService;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +19,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
@@ -26,13 +35,21 @@ import com.learning.www.utils.PrintImage;
 import com.learning.www.utils.PrintJobToImg;
 import com.learning.www.utils.QrCodeUtil;
 import com.learning.www.utils.Quartz;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 @SpringBootApplication
-@EnableAutoConfiguration
 @EnableCaching
 @EnableScheduling
 @MapperScan("com.learning.www.mapper")
-@Controller
+@RestController
 public class LearningApplication {
 
 	public static void main(String[] args) {
@@ -128,4 +145,29 @@ public class LearningApplication {
 //		}
 		// shiro 自带的工具类生成salt	
 	}
+
+	@Bean
+	public PageHelper pageHelper(){
+		         PageHelper pageHelper = new PageHelper();
+		         Properties properties = new Properties();
+		         properties.setProperty("offsetAsPageNum","true");
+		         properties.setProperty("rowBoundsWithCount","true");
+		         properties.setProperty("reasonable","true");
+		         properties.setProperty("dialect","mysql");    //配置mysql数据库的方言
+		         pageHelper.setProperties(properties);
+		        return pageHelper;
+	}
+
+	@Configuration
+	public class WebMvcConfiguration extends WebMvcConfigurationSupport {
+		@Override
+		public void addResourceHandlers(ResourceHandlerRegistry registry) {
+			//addResourceHandler是指你想在url请求的路径
+			//addResourceLocations是图片存放的真实路径
+			registry.addResourceHandler("/image/**").addResourceLocations("file:D://upload/");
+			registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
+			super.addResourceHandlers(registry);
+		}
+	}
+
 }
